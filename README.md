@@ -1,0 +1,93 @@
+# Le Cercle
+
+**Le Cercle** is a **private, self-hosted** desktop chat application — think of it as a "private Discord". One person hosts the server, sets an access code, and invites only the people they choose. Members chat in text channels, with accounts, profiles, online presence, and a customizable roles & permissions system.
+
+Key idea: **the application is itself a server**. There is no "create a server" step inside the app — running it in host mode *is* running a server. Anyone who clones this repository can therefore host **their own** independent Cercle, with **their own** access code and **their own** database.
+
+> 🚧 **Work in progress** (and a Rust learning project). The technical foundation (app, server, database connection) is in place; features are being added incrementally (see the [roadmap](#roadmap)).
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Desktop app | [Tauri 2](https://tauri.app/) (Rust) |
+| UI | React 19 + TypeScript + Vite |
+| Server | Rust — [tokio](https://tokio.rs/) (async) + [axum](https://github.com/tokio-rs/axum) |
+| Database | PostgreSQL (via [sqlx](https://github.com/launchbadge/sqlx)) — tested with [Neon](https://neon.com) |
+
+## Architecture (in short)
+
+Three layers: the **client** (the Tauri app) talks to the **server** (the Rust core), and **only the server** talks to the **PostgreSQL database**. A member never connects to the database directly — the server is the single authority (authentication, permissions, real-time). Real-time communication will run over WebSocket.
+
+## Project structure
+
+```
+le-cercle/
+├─ Cargo.toml          # Cargo workspace (groups the Rust crates)
+├─ src/                # React + TypeScript frontend
+├─ src-tauri/          # Rust core of the Tauri app
+├─ crates/
+│  ├─ server/          # the server (axum + tokio + sqlx)
+│  │  └─ .env.example  # configuration template (copy to .env)
+│  └─ shared/          # shared types & protocol
+├─ package.json        # frontend dependencies
+└─ index.html
+```
+
+## Prerequisites
+
+- [Rust](https://rustup.rs) (with the default toolchain)
+- [Node.js](https://nodejs.org) (LTS) + npm
+- A reachable **PostgreSQL** database (easiest: a free project on [Neon](https://neon.com))
+- On Windows: the C++ build tools (installed automatically with Rust) and the WebView2 runtime (present by default on Windows 10/11)
+
+## Running in development
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd le-cercle
+   ```
+
+2. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure the database** — copy the template and fill in your connection string:
+   ```bash
+   cp crates/server/.env.example crates/server/.env
+   # then edit crates/server/.env and set your DATABASE_URL
+   ```
+
+4. **Start the server** (in a first terminal):
+   ```bash
+   cd crates/server
+   cargo run
+   ```
+   You should see "Connected to Postgres…" followed by "Server started on http://127.0.0.1:8080".
+
+5. **Start the application** (in a second terminal, from the project root):
+   ```bash
+   npm run tauri dev
+   ```
+   The first Tauri Rust build takes a few minutes; a desktop window then opens.
+
+## Secrets & configuration
+
+The `crates/server/.env` file holds the database connection string (**a secret**). It is **ignored by git** (see `.gitignore`) and must **never** be published. Only `crates/server/.env.example` (which contains no secret) is versioned, as a template.
+
+## Roadmap
+
+- [x] Foundation: Tauri app + Rust server + PostgreSQL connection
+- [ ] Accounts (sign-up with access code, login, password hashing)
+- [ ] Profiles (nickname, avatar, description)
+- [ ] Text channels (create / delete)
+- [ ] Real-time messages (WebSocket) + persistent history
+- [ ] Online / offline presence
+- [ ] Customizable roles & permissions
+- [ ] *(later)* migration to a remote server (VPS), voice channels
+
+## License
+
+To be defined.
