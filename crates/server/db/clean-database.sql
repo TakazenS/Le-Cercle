@@ -1,0 +1,1 @@
+TRUNCATE server_config, users, roles, user_roles, sessions CASCADE;
