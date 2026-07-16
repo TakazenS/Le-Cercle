@@ -8,3 +8,14 @@ pub struct RegisterRequest {
     pub password: String,
     pub access_code: String,
 }
+
+#[derive(serde::Deserialize)]
+pub struct LoginRequest {
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(serde::Serialize)]
+pub struct AuthResponse {
+    pub token: String,
+}
