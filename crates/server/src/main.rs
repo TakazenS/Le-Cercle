@@ -2,7 +2,8 @@ mod models;
 mod auth;
 mod handlers;
 mod bootstrap;
-use handlers::{ handler, register };
+
+use handlers::{ handler, register, login };
 use bootstrap::lead_in;
 use sqlx::postgres::PgPoolOptions;
 use tracing::info;
@@ -12,7 +13,6 @@ use axum::{
     routing::{ get, post },
     Router,
 };
-
 /*======= Main =======*/
 #[tokio::main]
 async fn main() {
@@ -52,6 +52,7 @@ async fn main() {
     let app = Router::new()
         .route("/", get(handler))
         .route("/register", post(register))
+        .route("/login", post(login))
         .with_state(pool.clone());
 
     let listener = tokio::net::TcpListener::bind(format!("{ip}:{port}"))
