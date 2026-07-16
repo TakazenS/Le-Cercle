@@ -1,3 +1,4 @@
+/*======= Tests =======*/
 #[cfg(test)]
 mod tests {
     #[test]
@@ -6,6 +7,7 @@ mod tests {
     }
 }
 
+/*======= Functions =======*/
 pub fn get_port() -> &'static str { "8080" }
 
 pub fn get_ip() -> &'static str { "127.0.0.1" }
