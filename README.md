@@ -39,6 +39,7 @@ le-cercle/
 - [Rust](https://rustup.rs) (with the default toolchain)
 - [Node.js](https://nodejs.org) (LTS) + npm
 - A reachable **PostgreSQL** database (easiest: a free project on [Neon](https://neon.com))
+- **sqlx-cli** for database migrations: `cargo install sqlx-cli --no-default-features --features rustls,postgres`
 - On Windows: the C++ build tools (installed automatically with Rust) and the WebView2 runtime (present by default on Windows 10/11)
 
 ## Running in development
@@ -60,14 +61,20 @@ le-cercle/
    # then edit crates/server/.env and set your DATABASE_URL
    ```
 
-4. **Start the server** (in a first terminal):
+4. **Run the database migrations** — this creates the tables in your database:
    ```bash
    cd crates/server
+   sqlx migrate run
+   ```
+
+5. **Start the server** (in the same terminal):
+   ```bash
    cargo run
    ```
-   You should see "Connected to Postgres…" followed by "Server started on http://127.0.0.1:8080".
+   You should see "Connected to Postgres…" then "Server started on http://127.0.0.1:8080".
+   On the **very first launch**, the server also generates a random 8-character **access code** and prints it in the console — note it down, it is what new members will need to sign up.
 
-5. **Start the application** (in a second terminal, from the project root):
+6. **Start the application** (in a second terminal, from the project root):
    ```bash
    npm run tauri dev
    ```
@@ -77,9 +84,29 @@ le-cercle/
 
 The `crates/server/.env` file holds the database connection string (**a secret**). It is **ignored by git** (see `.gitignore`) and must **never** be published. Only `crates/server/.env.example` (which contains no secret) is versioned, as a template.
 
+## Database & migrations
+
+The database schema is managed with **sqlx migrations** — versioned SQL files in `crates/server/migrations/`. sqlx records which migrations have already been applied (in a `_sqlx_migrations` table), so it only runs the missing ones. This means any database — yours, a contributor's, or a fresh clone — reaches the exact same schema by running:
+
+```bash
+cd crates/server
+sqlx migrate run
+```
+
+To change the schema, **never edit an already-applied migration** (sqlx verifies a checksum and will refuse). Create a new one instead:
+
+```bash
+sqlx migrate add <name>      # creates a new timestamped .sql file
+# write your change (e.g. ALTER TABLE ...), then apply it:
+sqlx migrate run
+```
+
 ## Roadmap
 
+> **Current focus:** the accounts system (sign-up with access code, login, password hashing with Argon2).
+
 - [x] Foundation: Tauri app + Rust server + PostgreSQL connection
+- [x] Server bootstrap (auto-generated access code + default roles) & structured logging (`tracing`)
 - [ ] Accounts (sign-up with access code, login, password hashing)
 - [ ] Profiles (nickname, avatar, description)
 - [ ] Text channels (create / delete)
