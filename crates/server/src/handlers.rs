@@ -2,19 +2,31 @@ use axum::{ Json, extract::State, http::StatusCode };
 use argon2::{ Argon2, PasswordHash, PasswordVerifier };
 use tracing::{ info, warn };
 use uuid::Uuid;
-use crate::auth::create_hash;
-use crate::models::RegisterRequest;
+use crate::auth::{ create_hash, generate_session_token };
+use crate::models::{ RegisterRequest, LoginRequest, AuthResponse };
 
-/*======= Sync Functions =======*/
+/*======= Helpers =======*/
 fn internal_error(e: sqlx::Error) -> (StatusCode, String) {
     (StatusCode::INTERNAL_SERVER_ERROR, e.to_string())
 }
 
-/*======= Async Functions =======*/
+async fn create_session(pool: &sqlx::PgPool, user_id: Uuid) -> Result<String, (StatusCode, String)> {
+    let token = generate_session_token();
+    sqlx::query(
+    "INSERT INTO sessions (token, user_id, expires_at)
+         VALUES ($1, $2, now() + interval '90 days')",
+    )
+    .bind(&token)
+    .bind(user_id)
+    .execute(pool).await.map_err(internal_error)?;
+    Ok(token)
+}
+
+/*======= Async Handlers =======*/
 pub async fn register(
     State(pool): State<sqlx::PgPool>,
     Json(payload): Json<RegisterRequest>,
-) -> Result<String, (StatusCode, String)> {
+) -> Result<Json<AuthResponse>, (StatusCode, String)> {
     info!("Registration request for : {}", payload.email);
     
     let stored_hash: Option<String> =
@@ -81,13 +93,44 @@ pub async fn register(
     }
 
     tx.commit().await.map_err(internal_error)?;
-    
+
     info!("Registration accepted : access code valid for {}", payload.email);
-    Ok(format!("Access code valid - welcome {}", payload.email))
+    let token = create_session(&pool, user_id).await?;
+    info!("Creating session for : {} ({})", payload.email, payload.nickname);
+    Ok(Json(AuthResponse { token }))
 }
 
-pub async fn login() {
-    //
+pub async fn login(
+    State(pool): State<sqlx::PgPool>,
+    Json(payload): Json<LoginRequest>,
+) -> Result<Json<AuthResponse>, (StatusCode, String)> {
+    info!("Login request for : {}", payload.email);
+
+    let user: Option<(Uuid, String)> = sqlx::query_as("SELECT id, password_hash FROM users WHERE email = $1")
+        .bind(&payload.email)
+        .fetch_optional(&pool).await.map_err(internal_error)?;
+
+    let (user_id, password_hash) = match user {
+        Some(u) => u,
+        None => {
+            warn!("Login failed : unknown email {}", payload.email);
+            return Err((StatusCode::UNAUTHORIZED, "Invalid credentials".to_string()));
+        }
+    };
+
+    let parsed = PasswordHash::new(&password_hash)
+        .map_err(|_| (StatusCode::INTERNAL_SERVER_ERROR, "Invalid stored hash".to_string()))?;
+    if Argon2::default()
+        .verify_password(payload.password.as_bytes(), &parsed)
+        .is_err()
+    {
+        warn!("Login failed : wrong password for {}", payload.email);
+        return Err((StatusCode::UNAUTHORIZED, "Invalid credentials".to_string()));
+    }
+
+    let token = create_session(&pool, user_id).await?;
+    info!("Login success for {}", payload.email);
+    Ok(Json(AuthResponse { token }))
 }
 
 pub async fn handler() -> &'static str { "Le Cercle - Server Online !" }
