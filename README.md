@@ -117,4 +117,4 @@ sqlx migrate run
 
 ## License
 
-To be defined.
+Released under the [MIT License](LICENSE).
