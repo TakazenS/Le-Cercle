@@ -48,9 +48,7 @@ async fn main() {
         .expect("Failed to get test query");
     info!("Connected to Postgres : {}", version.0);
 
-    /*=================================
-                  Routes
-    =================================*/
+    /*======= Routes =======*/
     let app = Router::new()
         .route("/", get(handler))
         .route("/register", post(register))
