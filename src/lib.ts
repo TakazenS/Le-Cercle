@@ -1,11 +1,11 @@
-export function get_ip(): string {
-    return "127.0.0.1";
+export function setUrl(address: string) {
+    if (localStorage.getItem("le-cercle-server-url")) {
+        localStorage.removeItem("le-cercle-server-url");
+    }
+    localStorage.setItem("le-cercle-server-url", address);
 }
 
-export function get_port(): string {
-    return "8080";
+export function getUrl(): string | null {
+    return localStorage.getItem("le-cercle-server-url");
 }
 
-export function get_url(): string {
-    return `http://${get_ip()}:${get_port()}`;
-}
