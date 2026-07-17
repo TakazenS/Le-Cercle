@@ -165,9 +165,10 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
 
 export function AuthScreen() {
     const [mode, setMode] = useState<"login" | "register">("login");
+
     return mode === "login"
         ? (
-            <main>
+            <>
                 <section className={styles.connexionSection}>
                     <div className={styles.abstract}>
                         <h1>Le Cercle</h1>
@@ -177,9 +178,9 @@ export function AuthScreen() {
                         <LoginForm onSwitch={() => setMode("register")} />
                     </div>
                 </section>
-            </main>
+            </>
         ) : (
-            <main>
+            <>
                 <section className={styles.connexionSection}>
                     <div className={styles.abstract}>
                         <h1>Le Cercle</h1>
@@ -189,6 +190,6 @@ export function AuthScreen() {
                         <RegisterForm onSwitch={() => setMode("login")} />
                     </div>
                 </section>
-            </main>
+            </>
         )
 }
