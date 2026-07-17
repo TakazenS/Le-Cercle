@@ -8,4 +8,3 @@ export function setUrl(address: string) {
 export function getUrl(): string | null {
     return localStorage.getItem("le-cercle-server-url");
 }
-
