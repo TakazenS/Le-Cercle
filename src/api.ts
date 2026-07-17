@@ -1,10 +1,12 @@
-import { get_url } from "./lib.ts";
+import { getUrl } from "./lib.ts";
 import { RegisterPayload, LoginPayload, AuthResponse } from "./models.ts";
 
-const API_URL = get_url();
-
 export async function postJson<T>(path: string, body: unknown): Promise<T> {
-    const res = await fetch(`${API_URL}${path}`, {
+    const apiUrl = getUrl();
+    if (!apiUrl) {
+        throw new Error("No server configured");
+    }
+    const res = await fetch(`${apiUrl}${path}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
