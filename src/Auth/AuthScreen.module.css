@@ -1,4 +1,37 @@
-.loginSection {
+/*=======Login=======*/
+.loginCard {
+
+}
+
+/*=======Register=======*/
+.registerCard {
+
+}
+
+.nameContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+}
+
+.smallInput {
+    padding: 1rem;
+    width: 11rem;
+    font-size: var(--font-size);
+    border-radius: 12px;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: solid 1px var(--color-border);
+    margin-bottom: 1.2rem;
+}
+
+/*=======Shared=======*/
+.connexionSection {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,10 +49,7 @@
     color: var(--secondary-text);
 }
 
-.loginCard {
-}
-
-.loginForm {
+.form {
     display: flex;
     flex-direction: column;
     background-color: var(--color-surface);
@@ -29,14 +59,14 @@
     margin-bottom: 1.6rem;
 }
 
-.emailLabel, .passwordLabel {
+.label {
     font-size: var(--secondary-font-size);
     margin-bottom: 0.6rem;
     color: var(--secondary-text);
     font-weight: bold;
 }
 
-.emailInput, .passwordInput {
+.longInput {
     padding: 1rem;
     width: 25rem;
     font-size: var(--font-size);

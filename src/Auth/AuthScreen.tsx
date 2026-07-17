@@ -23,20 +23,20 @@ function LoginForm({ onSwitch }: { onSwitch: () => void }) {
 
     return (
         <>
-            <form className={styles.loginForm} onSubmit={onSubmit}>
-                <label className={styles.emailLabel} htmlFor="email">EMAIL</label>
+            <form className={styles.form} onSubmit={onSubmit}>
+                <label className={styles.label} htmlFor="email">EMAIL</label>
                 <input
                     id="email"
-                    className={styles.emailInput}
+                    className={styles.longInput}
                     type="text"
                     placeholder="Email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
-                <label className={styles.passwordLabel} htmlFor="password">PASSWORD</label>
+                <label className={styles.label} htmlFor="password">PASSWORD</label>
                 <input
                     id="password"
-                    className={styles.passwordInput}
+                    className={styles.longInput}
                     type="password"
                     placeholder="Password"
                     value={password}
@@ -60,9 +60,9 @@ function LoginForm({ onSwitch }: { onSwitch: () => void }) {
 
 function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
     const { register } = useAuth();
-    const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [accessCode, setAccessCode] = useState("");
@@ -85,63 +85,81 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <label htmlFor="email">EMAIL</label>
-            <input
-                id={email}
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-            />
-            <label htmlFor="firstName">FIRST NAME</label>
-            <input
-                id={firstName}
-                type="text"
-                placeholder="First name"
-                value={firstName}
-                onChange={e => setFirstName(e.target.value)}
-            />
-            <label htmlFor="lastName">LAST NAME</label>
-            <input
-                id={lastName}
-                type="text"
-                placeholder="Last name"
-                value={lastName}
-                onChange={e => setLastName(e.target.value)}
-            />
-            <label htmlFor="nickname">NICKNAME</label>
-            <input
-                id={nickname}
-                type="text"
-                placeholder="Nickname"
-                value={nickname}
-                onChange={e => setNickname(e.target.value)}
-            />
-            <label htmlFor="password">PASSWORD</label>
-            <input
-                id={password}
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-            />
-            <label htmlFor="accessCode">ACCESS CODE</label>
-            <input
-                id={accessCode}
-                type="text"
-                placeholder="Access code"
-                value={accessCode}
-                onChange={e => setAccessCode(e.target.value)}
-            />
-            {error &&
-                <p style={{ color: "red" }}>
-                    {error}
-                </p>
-            }
-            <button type="submit">Register</button>
-            <button type="button" onClick={onSwitch}>Login</button>
-        </form>
+        <>
+            <form className={styles.form} onSubmit={onSubmit}>
+                <div className={styles.nameContainer}>
+                    <div className={styles.name}>
+                        <label className={styles.label} htmlFor="firstName">FIRST NAME</label>
+                        <input
+                            id={firstName}
+                            className={styles.smallInput}
+                            type="text"
+                            placeholder="First name"
+                            value={firstName}
+                            onChange={e => setFirstName(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.name}>
+                        <label className={styles.label} htmlFor="lastName">LAST NAME</label>
+                        <input
+                            id={lastName}
+                            className={styles.smallInput}
+                            type="text"
+                            placeholder="Last name"
+                            value={lastName}
+                            onChange={e => setLastName(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <label className={styles.label} htmlFor="email">EMAIL</label>
+                <input
+                    id={email}
+                    className={styles.longInput}
+                    type="text"
+                    placeholder="Email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                />
+                <label className={styles.label} htmlFor="nickname">NICKNAME</label>
+                <input
+                    id={nickname}
+                    className={styles.longInput}
+                    type="text"
+                    placeholder="Nickname"
+                    value={nickname}
+                    onChange={e => setNickname(e.target.value)}
+                />
+                <label className={styles.label} htmlFor="password">PASSWORD</label>
+                <input
+                    id={password}
+                    className={styles.longInput}
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                />
+                <label className={styles.label} htmlFor="accessCode">ACCESS CODE</label>
+                <input
+                    id={accessCode}
+                    className={styles.longInput}
+                    type="text"
+                    placeholder="Access code"
+                    value={accessCode}
+                    onChange={e => setAccessCode(e.target.value)}
+                />
+                <div className={styles.errorContainer}>
+                {error &&
+                    <p className={styles.errorLabel}>
+                        {error}
+                    </p>
+                }
+                </div>
+                <button className={styles.submitBtn} type="submit">Register</button>
+            </form>
+            <div className={styles.switchBtn}>
+                <p>Already have an account ? <button type="button" onClick={onSwitch}>Login</button></p>
+            </div>
+        </>
     )
 }
 
@@ -150,7 +168,7 @@ export function AuthScreen() {
     return mode === "login"
         ? (
             <main>
-                <section className={styles.loginSection}>
+                <section className={styles.connexionSection}>
                     <div className={styles.abstract}>
                         <h1>Le Cercle</h1>
                         <p>Happy to see you.</p>
@@ -160,6 +178,17 @@ export function AuthScreen() {
                     </div>
                 </section>
             </main>
+        ) : (
+            <main>
+                <section className={styles.connexionSection}>
+                    <div className={styles.abstract}>
+                        <h1>Le Cercle</h1>
+                        <p>You need the server access code.</p>
+                    </div>
+                    <div className={styles.registerCard}>
+                        <RegisterForm onSwitch={() => setMode("login")} />
+                    </div>
+                </section>
+            </main>
         )
-        : <RegisterForm onSwitch={() => setMode("login")} />
 }
