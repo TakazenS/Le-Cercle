@@ -6,6 +6,7 @@ mod bootstrap;
 use handlers::{ handler, register, login };
 use bootstrap::lead_in;
 use sqlx::postgres::PgPoolOptions;
+use tower_http::cors::CorsLayer;
 use tracing::info;
 use shared::{ get_ip, get_port, get_url };
 use tracing_subscriber::{ fmt, EnvFilter };
@@ -53,6 +54,7 @@ async fn main() {
         .route("/", get(handler))
         .route("/register", post(register))
         .route("/login", post(login))
+        .layer(CorsLayer::permissive())
         .with_state(pool.clone());
 
     let listener = tokio::net::TcpListener::bind(format!("{ip}:{port}"))
