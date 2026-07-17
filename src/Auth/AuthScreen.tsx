@@ -2,8 +2,13 @@ import styles from "./AuthScreen.module.css";
 import { useState } from "react";
 import { useAuth } from "./auth.tsx";
 
-function LoginForm({ onSwitch }: { onSwitch: () => void }) {
+interface LoginProps {
+    onSwitch: () => void;
+}
+
+function LoginForm(props: LoginProps) {
     const { login } = useAuth();
+    const { onSwitch } = props
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);

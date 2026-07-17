@@ -32,10 +32,10 @@ export function ServerLink(props: Props) {
             >
                 <div className={styles.abstract}>
                     <h1>Le Cercle</h1>
-                    <p>Connect to the server.</p>
+                    <p>Connect to a server.</p>
                 </div>
                 <div className={styles.card}>
-                    <h3>Configure server connexion</h3>
+                    <h3>Add a server connexion</h3>
                     <div className={styles.btnContainer}>
                         <button
                             className={`${styles.btn} ${protocol === "http://" ? styles.btnOn : styles.btnOff}`}
@@ -43,7 +43,7 @@ export function ServerLink(props: Props) {
                                 setProtocol("http://");
                             }}
                         >
-                            http
+                            HTTP
                         </button>
                         <p className={styles.orSign}>or</p>
                         <button
@@ -52,7 +52,7 @@ export function ServerLink(props: Props) {
                                 setProtocol("https://");
                             }}
                         >
-                            https
+                            HTTPS
                         </button>
                     </div>
 
@@ -84,6 +84,7 @@ export function ServerLink(props: Props) {
                                 <div className={styles.configInputs}>
                                     <p>{protocol}</p>
                                     <input
+                                        id="ip"
                                         onChange={e => setServerIp(e.target.value)}
                                         className={`${styles.inputs} ${styles.ipInput}`}
                                         type="text"
@@ -91,6 +92,7 @@ export function ServerLink(props: Props) {
                                     />
                                     <p>:</p>
                                     <input
+                                        id="port"
                                         onChange={e => setPort(e.target.value)}
                                         className={`${styles.inputs} ${styles.portInput}`}
                                         type="text"
@@ -104,7 +106,7 @@ export function ServerLink(props: Props) {
                                         )}
                                         className={styles.saveBtn}
                                     >
-                                        Save
+                                        Add Server
                                     </button>
                                 </div>
                             </>
@@ -113,6 +115,7 @@ export function ServerLink(props: Props) {
                                 <div className={styles.configInputs}>
                                     <p>{protocol}</p>
                                     <input
+                                        id="name"
                                         onChange={e => setServerDns(e.target.value)}
                                         className={`${styles.inputs} ${styles.serverNameInput}`}
                                         type="text"
@@ -126,7 +129,7 @@ export function ServerLink(props: Props) {
                                         )}
                                         className={styles.saveBtn}
                                     >
-                                        Save
+                                        Add Server
                                     </button>
                                 </div>
                             </>

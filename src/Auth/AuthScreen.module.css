@@ -1,13 +1,4 @@
-/*=======Login=======*/
-.loginCard {
-
-}
-
 /*=======Register=======*/
-.registerCard {
-
-}
-
 .nameContainer {
     display: flex;
     flex-direction: row;
@@ -28,6 +19,11 @@
     background-color: var(--color-bg);
     border: solid 1px var(--color-border);
     margin-bottom: 1.2rem;
+}
+
+.smallInput:focus {
+    outline-offset: 2px;
+    outline: solid 2px var(--color-accent);
 }
 
 /*=======Shared=======*/
@@ -79,6 +75,11 @@
     margin-bottom: 1.2rem;
 }
 
+.longInput:focus {
+    outline-offset: 2px;
+    outline: solid 2px var(--color-accent);
+}
+
 .errorContainer {
     display: flex;
     justify-content: center;
@@ -98,6 +99,11 @@
     font-size: var(--font-size);
     font-weight: bold;
     cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
+.submitBtn:hover {
+    transform: scale(102%);
 }
 
 .switchBtn {
@@ -115,4 +121,8 @@
     background-color: transparent;
     color: var(--color-accent);
     cursor: pointer;
+}
+
+.switchBtn button:hover {
+    text-decoration: underline;
 }

@@ -58,8 +58,10 @@
 
 .btnOn {
     color: var(--color-text);
-    background-color: var(--color-accent);
+    background-color: var(--color-bg);
     font-weight: bold;
+    outline-offset: 2px;
+    outline: solid 2px var(--color-accent);
 }
 
 .largeSeparator {
@@ -124,7 +126,12 @@
     border: solid 1px var(--color-border);
     font-size: var(--font-size);
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: var(--color-accent);
     cursor: pointer;
     font-weight: bold;
+    transition: ease-in-out 0.2s;
+}
+
+.saveBtn:hover {
+    transform: scale(102%);
 }
