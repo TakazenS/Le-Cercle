@@ -15,3 +15,9 @@ export interface LoginPayload {
 export interface AuthResponse {
     token: string;
 }
+
+export interface Server {
+    id: string;
+    name: string;
+    url: string;
+}
