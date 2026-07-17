@@ -38,7 +38,7 @@ export function ServerLink(props: Props) {
                     <h3>Configure server connexion</h3>
                     <div className={styles.btnContainer}>
                         <button
-                            className={styles.btn}
+                            className={`${styles.btn} ${protocol === "http://" ? styles.btnOn : styles.btnOff}`}
                             onClick={_ => {
                                 setProtocol("http://");
                             }}
@@ -47,7 +47,7 @@ export function ServerLink(props: Props) {
                         </button>
                         <p className={styles.orSign}>or</p>
                         <button
-                            className={styles.btn}
+                            className={`${styles.btn} ${protocol === "https://" ? styles.btnOn : styles.btnOff}`}
                             onClick={_ => {
                                 setProtocol("https://");
                             }}
@@ -60,7 +60,7 @@ export function ServerLink(props: Props) {
 
                     <div className={styles.btnContainer}>
                         <button
-                            className={styles.btn}
+                            className={`${styles.btn} ${ip ? styles.btnOn : styles.btnOff}`}
                             onClick={_ => {
                                 setIp(true);
                             }}
@@ -69,7 +69,7 @@ export function ServerLink(props: Props) {
                         </button>
                         <p className={styles.orSign}>or</p>
                         <button
-                            className={styles.btn}
+                            className={`${styles.btn} ${!ip ? styles.btnOn : styles.btnOff}`}
                             onClick={_ => {
                                 setIp(false);
                             }}
@@ -83,31 +83,52 @@ export function ServerLink(props: Props) {
                             <>
                                 <div className={styles.configInputs}>
                                     <p>{protocol}</p>
-                                    <input onChange={e => setServerIp(e.target.value)} type="text" placeholder={"Server IP (ex. 172.0.0.1)"}/>
+                                    <input
+                                        onChange={e => setServerIp(e.target.value)}
+                                        className={`${styles.inputs} ${styles.ipInput}`}
+                                        type="text"
+                                        placeholder={"Server IP (ex. 172.0.0.1)"}
+                                    />
                                     <p>:</p>
-                                    <input onChange={e => setPort(e.target.value)} type="text" placeholder={"Port (ex. 8080)"}/>
+                                    <input
+                                        onChange={e => setPort(e.target.value)}
+                                        className={`${styles.inputs} ${styles.portInput}`}
+                                        type="text"
+                                        placeholder={"Port (ex. 8080)"}
+                                    />
                                 </div>
-                                <button
-                                    onClick={() => (
-                                        submit(serverIpUrl)
-                                    )}
-                                >
-                                    Submit
-                                </button>
+                                <div className={styles.saveBtnBox}>
+                                    <button
+                                        onClick={() => (
+                                            submit(serverIpUrl)
+                                        )}
+                                        className={styles.saveBtn}
+                                    >
+                                        Save
+                                    </button>
+                                </div>
                             </>
                         ) : (
                             <>
                                 <div className={styles.configInputs}>
                                     <p>{protocol}</p>
-                                    <input onChange={e => setServerDns(e.target.value)} type="text" placeholder={"Server Name (ex. le-cercle.com)"}/>
+                                    <input
+                                        onChange={e => setServerDns(e.target.value)}
+                                        className={`${styles.inputs} ${styles.serverNameInput}`}
+                                        type="text"
+                                        placeholder={"Server Name (ex. le-cercle.com)"}
+                                    />
                                 </div>
-                                <button
-                                    onClick={() => (
-                                        submit(serverDnsUrl)
-                                    )}
-                                >
-                                    Submit
-                                </button>
+                                <div className={styles.saveBtnBox}>
+                                    <button
+                                        onClick={() => (
+                                            submit(serverDnsUrl)
+                                        )}
+                                        className={styles.saveBtn}
+                                    >
+                                        Save
+                                    </button>
+                                </div>
                             </>
                         )}
                         </div>

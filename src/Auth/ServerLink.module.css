@@ -6,7 +6,7 @@
     justify-content: center;
     width: 100%;
     height: 100vh;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(10px);
 }
 
 .abstract {
@@ -25,8 +25,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 15rem;
-    width: 20rem;
+    height: 20rem;
+    width: 25rem;
     background-color: var(--color-surface);
     border: solid 1px var(--color-border);
     border-radius: 24px;
@@ -43,15 +43,23 @@
 }
 
 .btn {
-    width: 5rem;
+    width: 8rem;
+    height: 3rem;
+    border-radius: 12px;
+    border: solid 1px var(--color-border);
+    font-size: var(--font-size);
+    cursor: pointer;
 }
 
 .btnOff {
-    color: #e5484d;
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }
 
 .btnOn {
-    color: #a06bff;
+    color: var(--color-text);
+    background-color: var(--color-accent);
+    font-weight: bold;
 }
 
 .largeSeparator {
@@ -70,4 +78,53 @@
 .configInputs {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: solid 1px var(--color-border);
+}
+
+.configInputs p {
+    color: var(--secondary-text);
+    font-size: var(--font-size);
+}
+
+.inputs {
+    color: var(--color-text);
+    background-color: transparent;
+    border-right: none;
+    border-bottom: solid 1px var(--color-border);
+    font-size: var(--font-size);
+}
+
+.ipInput {
+    width: 11rem;
+}
+
+.portInput {
+    width: 7rem;
+}
+
+.serverNameInput {
+    width: 19rem;
+}
+
+.saveBtnBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.saveBtn {
+    width: 19rem;
+    height: 3rem;
+    border-radius: 12px;
+    border: solid 1px var(--color-border);
+    font-size: var(--font-size);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    cursor: pointer;
+    font-weight: bold;
 }
