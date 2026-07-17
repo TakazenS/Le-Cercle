@@ -33,7 +33,7 @@ function App() {
                 </div>
             </main>
         )
-    };
+    }
   return (
     <main className="mainApp">
         <p>Connecté ! (bientôt le reste)</p>
