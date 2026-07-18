@@ -1,4 +1,4 @@
-import { Server } from "./models.ts";
+import { Server } from "../models.ts";
 
 const SERVERS_KEY = "le-cercle-servers";
 
@@ -16,10 +16,10 @@ function writeServers(servers: Server[]) {
     localStorage.setItem(SERVERS_KEY, JSON.stringify(servers));
 }
 
-export function addServer(url: string, name?: string): Server {
+export function addServer(url: string, name: string): Server {
     const server: Server = {
         id: crypto.randomUUID(),
-        name: name?.trim() || url.replace(/^https?:\/\//, ""),
+        name: name.trim(),
         url,
     };
     const servers = readServers();
