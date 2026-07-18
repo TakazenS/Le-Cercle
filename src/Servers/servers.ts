@@ -40,6 +40,13 @@ export function selectServer(id: string) {
     localStorage.setItem(SELECTED_SERVER_KEY, id);
 }
 
+export function updateServer(id: string, patch: Partial<Pick<Server, "name" | "url">>) {
+    const servers = readServers().map(s => (
+        s.id === id ? {...s, ...patch} : s
+    ))
+    writeServers(servers)
+}
+
 export function getSelectedId(): string | null {
     return localStorage.getItem(SELECTED_SERVER_KEY);
 }
