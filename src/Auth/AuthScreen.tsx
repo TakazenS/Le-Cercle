@@ -171,30 +171,24 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
 export function AuthScreen() {
     const [mode, setMode] = useState<"login" | "register">("login");
 
-    return mode === "login"
-        ? (
-            <>
-                <section className={styles.connexionSection}>
-                    <div className={styles.abstract}>
-                        <h1>Le Cercle</h1>
+    return (
+        <>
+            <section className={styles.connexionSection}>
+                <div className={styles.abstract}>
+                    <h1>Le Cercle</h1>
+                    {mode === "login" ? (
                         <p>Happy to see you.</p>
-                    </div>
-                    <div className={styles.loginCard}>
-                        <LoginForm onSwitch={() => setMode("register")} />
-                    </div>
-                </section>
-            </>
-        ) : (
-            <>
-                <section className={styles.connexionSection}>
-                    <div className={styles.abstract}>
-                        <h1>Le Cercle</h1>
+                    ) : (
                         <p>You need the server access code.</p>
-                    </div>
-                    <div className={styles.registerCard}>
-                        <RegisterForm onSwitch={() => setMode("login")} />
-                    </div>
-                </section>
-            </>
-        )
+                    )}
+                </div>
+                <div>{mode === "login" ? (
+                    <LoginForm onSwitch={() => setMode("register")} />
+                ) : (
+                    <RegisterForm onSwitch={() => setMode("login")} />
+                )}
+                </div>
+            </section>
+        </>
+    )
 }
