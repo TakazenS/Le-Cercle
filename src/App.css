@@ -42,22 +42,26 @@ body {
 }
 
 .toolbar {
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
 }
 
 .selectServer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  color: var(--color-accent);
-  background-color: var(--color-surface);
-  backdrop-filter: blur(4px);
-  border: solid 1px var(--color-border);
-  cursor: pointer;
-  padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    color: var(--color-accent);
+    background-color: var(--color-surface);
+    backdrop-filter: blur(4px);
+    border: solid 1px var(--color-border);
+    cursor: pointer;
+    padding: 5px;
 }
 
 .mainApp {
