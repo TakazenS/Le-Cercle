@@ -1,32 +1,58 @@
-import "./App.css";
+import styles from "./App.module.css";
+import { useState } from "react";
+import { FiServer } from "react-icons/fi";
+import { MdKeyboardArrowUp } from "react-icons/md";
 import { useAuth } from "./Auth/AuthProvider.tsx";
 import { AuthScreen } from "./Auth/AuthScreen.tsx";
 import { AddServers } from "./Servers/AddServers.tsx";
-import { FiServer } from "react-icons/fi";
-import { useState } from "react";
 import { ServersList } from "./Servers/ServersList.tsx";
 import { listServers } from "./Servers/servers.ts";
+import { useServers } from "./Servers/ServersProvider.tsx";
 
 function App() {
     const { isAuthenticated, logout } = useAuth();
-    const [showServerLink, setShowServerLink] = useState<boolean>(() => listServers().length === 0);
+    const { currentServer } = useServers();
+    const [showAddServers, setShowAddServers] = useState<boolean>(() => listServers().length === 0);
+    const [showServerSList, setShowServersList] = useState<boolean>(false)
 
     if (!isAuthenticated) {
         return (
-            <main className="mainAuth">
-                {showServerLink && (
-                    <AddServers onClose={() => setShowServerLink(false)} />
+            <main>
+                {showAddServers && (
+                    <AddServers onClose={() => setShowAddServers(false)} />
+                )}
+                {showServerSList && (
+                    <ServersList onClose={() => setShowServersList(false)} />
                 )}
                 <AuthScreen />
-                <div className="toolbar">
-                    <ServersList />
+                <div className={styles.toolbar}>
                     <button
-                        className="selectServer"
+                        className={styles.selectServerBtn}
                         onClick={() => {
-                            if (!showServerLink) {
-                                setShowServerLink(true)
+                            if (!showServerSList) {
+                                setShowServersList(true)
                             } else {
-                                setShowServerLink(false)
+                                setShowServersList(false)
+                            }
+                        }}
+                    >
+                        {currentServer === null ? (
+                            <p className={styles.text}>No server selected</p>
+                        ) : (
+                            <>
+                                <p className={styles.pre}>Current :</p>
+                                <p className={styles.text}>{currentServer?.name} - {currentServer?.url}</p>
+                                <MdKeyboardArrowUp className={styles.pre} size={35}/>
+                            </>
+                        )}
+                    </button>
+                    <button
+                        className={styles.addServerBtn}
+                        onClick={() => {
+                            if (!showAddServers) {
+                                setShowAddServers(true)
+                            } else {
+                                setShowAddServers(false)
                             }
                         }}
                     >
@@ -37,7 +63,7 @@ function App() {
         )
     }
   return (
-    <main className="mainApp">
+    <main>
         <p>Connecté ! (bientôt le reste)</p>
         <button onClick={logout}>Se deconnecter</button>
     </main>
