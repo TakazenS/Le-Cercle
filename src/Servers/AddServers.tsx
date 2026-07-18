@@ -29,7 +29,7 @@ export function AddServers(props: Props) {
             >
                 <div className={styles.abstract}>
                     <h1>Le Cercle</h1>
-                    <p>Connect to a server.</p>
+                    <p>Add a server to your server list.</p>
                 </div>
                 <div className={styles.card}>
                     <h3>Add a server connexion</h3>
@@ -97,7 +97,7 @@ export function AddServers(props: Props) {
                                         onChange={e => setServerIp(e.target.value)}
                                         className={`${styles.inputs} ${styles.ipInput}`}
                                         type="text"
-                                        placeholder={"Server IP (ex. 172.0.0.1)"}
+                                        placeholder={"IP (ex. 172.0.0.1)"}
                                     />
                                     <p>:</p>
                                     <input
@@ -110,9 +110,10 @@ export function AddServers(props: Props) {
                                 </div>
                                 <div className={styles.saveBtnBox}>
                                     <button
-                                        onClick={() => (
+                                        onClick={() => {
                                             addServer(serverIpUrl, serverName)
-                                        )}
+                                            onClose()
+                                        }}
                                         className={styles.saveBtn}
                                     >
                                         Add Server
@@ -133,9 +134,10 @@ export function AddServers(props: Props) {
                                 </div>
                                 <div className={styles.saveBtnBox}>
                                     <button
-                                        onClick={() => (
+                                        onClick={() => {
                                             addServer(serverDnsUrl, serverName)
-                                        )}
+                                            onClose()
+                                        }}
                                         className={styles.saveBtn}
                                     >
                                         Add Server
