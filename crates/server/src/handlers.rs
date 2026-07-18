@@ -43,14 +43,14 @@ pub async fn register(
         .is_err()
     {
         warn!("Registration refused : invalid access code for {}", payload.email);
-        return Err((StatusCode::FORBIDDEN, "Invalid access code".to_string()));
+        return Err((StatusCode::FORBIDDEN, "Invalid access code !".to_string()));
     }
 
     let existing_account: Option<Uuid> = sqlx::query_scalar("SELECT id FROM users WHERE email = $1")
         .bind(&payload.email)
         .fetch_optional(&pool).await.map_err(internal_error)?;
     if existing_account.is_some() {
-        return Err((StatusCode::CONFLICT, "Email already exists".to_string()));
+        return Err((StatusCode::CONFLICT, "Email already used !".to_string()));
     }
     
     let password_hash = create_hash(&payload.password);
@@ -114,7 +114,7 @@ pub async fn login(
         Some(u) => u,
         None => {
             warn!("Login failed : unknown email {}", payload.email);
-            return Err((StatusCode::UNAUTHORIZED, "Invalid credentials".to_string()));
+            return Err((StatusCode::UNAUTHORIZED, "Invalid credentials !".to_string()));
         }
     };
 
@@ -125,7 +125,7 @@ pub async fn login(
         .is_err()
     {
         warn!("Login failed : wrong password for {}", payload.email);
-        return Err((StatusCode::UNAUTHORIZED, "Invalid credentials".to_string()));
+        return Err((StatusCode::UNAUTHORIZED, "Invalid credentials !".to_string()));
     }
 
     let token = create_session(&pool, user_id).await?;
