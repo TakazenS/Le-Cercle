@@ -1,23 +1,53 @@
 import styles from "./AddServers.module.css";
+import { Server } from "../models.ts";
 import { useState } from "react";
 import { useServers } from "./ServersProvider.tsx";
 
 interface Props {
     onClose: () => void;
+    editServer?: Server;
 }
 
 export function AddServers(props: Props) {
-    const { onClose } = props;
-    const { addServer } = useServers();
-    const [serverName, setServerName] = useState<string>("New Server")
-    const [ip, setIp] = useState<boolean>(true);
-    const [protocol, setProtocol] = useState<string>("http://");
+    const { onClose, editServer } = props;
+    const { addServer, updateServer } = useServers();
+    const [serverName, setServerName] = useState<string>("New Server");
     const [serverIp, setServerIp] = useState<string>("127.0.0.1");
-    const [port, setPort] = useState<string>("8080");
+    const [serverPort, setPort] = useState<string>("8080");
     const [serverDns, setServerDns] = useState<string>("");
+    const parsed = editServer ? parseUrl(editServer.url) : null;
+    const [protocol, setProtocol] = useState<string>(parsed?.protocol ?? "http://");
+    const [ip, setIp] = useState<boolean>(parsed ? isIp(parsed.host) : true);
 
-    let serverIpUrl = `${protocol}${serverIp}:${port}`;
+    const serverNameValue = editServer?.name ?? "";
+    const serverIpValue = parsed && isIp(parsed.host) ? parsed.host : "";
+    const serverPortValue = parsed?.port || "";
+    const serverDnsValue = parsed && !isIp(parsed.host) ? parsed.host : "";
+
+    let serverIpUrl = `${protocol}${serverIp}:${serverPort}`;
     let serverDnsUrl = `${protocol}${serverDns}`;
+
+    function parseUrl(url: string) {
+        const u = new URL(url);
+        return {
+            protocol: u.protocol + "//",
+            host: u.hostname,
+            port: u.port,
+        };
+    }
+
+    function isIp(host: string) {
+        return /^\d{1,3}(\.\d{1,3}){3}$/.test(host); // ressemble à une IPv4 ?
+    }
+
+    function submit(url: string) {
+        if (editServer) {
+            updateServer(editServer.id, {name: serverName, url})
+        } else {
+            addServer(url, serverName)
+        }
+        onClose();
+    }
 
     return (
         <>
@@ -29,16 +59,25 @@ export function AddServers(props: Props) {
             >
                 <div className={styles.abstract}>
                     <h1>Le Cercle</h1>
-                    <p>Add a server to your server list.</p>
+                    {editServer ? (
+                        <p>Add a server to your server list.</p>
+                    ) : (
+                        <p>Change server information.</p>
+                    )}
                 </div>
                 <div className={styles.card}>
-                    <h3>Add a server connexion</h3>
+                    {editServer ? (
+                        <h3>Add a server connexion</h3>
+                    ) : (
+                        <h3>Change a server connexion</h3>
+                    )}
                     <div className={styles.serverNameBox}>
                         <label htmlFor="serverName">Server Name</label>
                         <input
                             id="serverName"
                             type="text"
                             placeholder="Server Name (ex. New Server)"
+                            value={editServer ? serverNameValue : ""}
                             onChange={e => setServerName(e.target.value)}
                         />
                     </div>
@@ -83,7 +122,7 @@ export function AddServers(props: Props) {
                                 setIp(false);
                             }}
                         >
-                            Server name
+                            Server DNS
                         </button>
                     </div>
                     <div className={styles.configBox}>
@@ -97,6 +136,7 @@ export function AddServers(props: Props) {
                                         onChange={e => setServerIp(e.target.value)}
                                         className={`${styles.inputs} ${styles.ipInput}`}
                                         type="text"
+                                        value={editServer ? serverIpValue : ""}
                                         placeholder={"IP (ex. 172.0.0.1)"}
                                     />
                                     <p>:</p>
@@ -105,18 +145,16 @@ export function AddServers(props: Props) {
                                         onChange={e => setPort(e.target.value)}
                                         className={`${styles.inputs} ${styles.portInput}`}
                                         type="text"
+                                        value={editServer ? serverPortValue : ""}
                                         placeholder={"Port (ex. 8080)"}
                                     />
                                 </div>
                                 <div className={styles.saveBtnBox}>
                                     <button
-                                        onClick={() => {
-                                            addServer(serverIpUrl, serverName)
-                                            onClose()
-                                        }}
+                                        onClick={() => submit(serverIpUrl)}
                                         className={styles.saveBtn}
                                     >
-                                        Add Server
+                                        {editServer ? "Save" : "Add Server"}
                                     </button>
                                 </div>
                             </>
@@ -129,18 +167,16 @@ export function AddServers(props: Props) {
                                         onChange={e => setServerDns(e.target.value)}
                                         className={`${styles.inputs} ${styles.serverDnsInput}`}
                                         type="text"
-                                        placeholder={"Server Dns (ex. le-cercle.com)"}
+                                        value={editServer ? serverDnsValue : ""}
+                                        placeholder={"DNS (ex. le-cercle.com)"}
                                     />
                                 </div>
                                 <div className={styles.saveBtnBox}>
                                     <button
-                                        onClick={() => {
-                                            addServer(serverDnsUrl, serverName)
-                                            onClose()
-                                        }}
+                                        onClick={() => submit(serverDnsUrl)}
                                         className={styles.saveBtn}
                                     >
-                                        Add Server
+                                        {editServer ? "Save" : "Add Server"}
                                     </button>
                                 </div>
                             </>
