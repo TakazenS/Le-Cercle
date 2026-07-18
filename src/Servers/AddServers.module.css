@@ -25,7 +25,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 20rem;
+    height: 26rem;
     width: 25rem;
     background-color: var(--color-surface);
     border: solid 1px var(--color-border);
@@ -60,6 +60,33 @@
     color: var(--color-text);
     background-color: var(--color-bg);
     font-weight: bold;
+    outline-offset: 2px;
+    outline: solid 2px var(--color-accent);
+}
+
+.serverNameBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.serverNameBox label {
+    font-size: var(--secondary-font-size);
+    margin-bottom: 0.6rem;
+    color: var(--secondary-text);
+    font-weight: bold;
+}
+
+.serverNameBox input {
+    padding: 0.8rem 1rem;
+    width: 18rem;
+    font-size: var(--font-size);
+    border-radius: 12px;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: solid 1px var(--color-border);
+}
+
+.serverNameBox input:focus {
     outline-offset: 2px;
     outline: solid 2px var(--color-accent);
 }
@@ -108,7 +135,7 @@
     width: 7rem;
 }
 
-.serverNameInput {
+.serverDnsInput {
     width: 19rem;
 }
 
