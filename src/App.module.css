@@ -37,10 +37,6 @@ body {
   min-height: 100vh;
 }
 
-.mainAuth {
-
-}
-
 .toolbar {
     display: flex;
     flex-direction: row;
@@ -51,7 +47,30 @@ body {
     bottom: 1rem;
 }
 
-.selectServer {
+.selectServerBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-size: var(--font-size);
+    background-color: var(--color-surface);
+    backdrop-filter: blur(4px);
+    border: solid 1px var(--color-border);
+    cursor: pointer;
+    padding: 5px 5px 5px 12px;
+    gap: 4px;
+    height: 2.8rem;
+}
+
+.text {
+    color: var(--color-text);
+}
+
+.pre {
+    color: var(--color-accent);
+}
+
+.addServerBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,6 +83,4 @@ body {
     padding: 5px;
 }
 
-.mainApp {
-
-}
+/*========Lib========*/
