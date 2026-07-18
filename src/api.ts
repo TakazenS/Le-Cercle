@@ -1,10 +1,10 @@
-import { getUrl } from "./lib.ts";
 import { RegisterPayload, LoginPayload, AuthResponse } from "./models.ts";
+import { getSelectedUrl } from "./Servers/servers.ts";
 
 export async function postJson<T>(path: string, body: unknown): Promise<T> {
-    const apiUrl = getUrl();
+    const apiUrl = getSelectedUrl()
     if (!apiUrl) {
-        throw new Error("No server configured");
+        throw new Error("No server selected !");
     }
     const res = await fetch(`${apiUrl}${path}`, {
         method: "POST",
