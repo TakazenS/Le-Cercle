@@ -1,10 +1,11 @@
 import "./App.css";
 import { useAuth } from "./Auth/auth.tsx";
 import { AuthScreen } from "./Auth/AuthScreen.tsx";
-import { ServerLink } from "./Auth/ServerLink.tsx";
+import { AddServers } from "./Servers/AddServers.tsx";
 import { FiServer } from "react-icons/fi";
 import { getUrl } from "./lib.ts";
 import { useState } from "react";
+import { ServersList } from "./Servers/ServersList.tsx";
 
 function App() {
     const { isAuthenticated, logout } = useAuth();
@@ -14,8 +15,9 @@ function App() {
         return (
             <main className="mainAuth">
                 {showServerLink && (
-                    <ServerLink onClose={() => setShowServerLink(false)} />
+                    <AddServers onClose={() => setShowServerLink(false)} />
                 )}
+                <ServersList />
                 <AuthScreen />
                 <div className="toolbar">
                     <button
