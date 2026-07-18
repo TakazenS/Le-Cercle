@@ -7,6 +7,7 @@ interface ServersContextValue {
     selectedId: string | null;
     currentServer: Server | null;
     addServer: (url: string, name: string) => void;
+    updateServer: (id: string, patch: Partial<Pick<Server, "name" | "url">>) => void;
     selectServer: (id: string) => void;
 }
 
@@ -22,6 +23,11 @@ export function ServersProvider({ children }: { children: ReactNode}) {
         setSelectedId(store.getSelectedId);
     }
 
+    function updateServer(id: string, patch: Partial<Pick<Server, "name" | "url">>) {
+        store.updateServer(id, patch);
+        // setSelectedId(id);
+    }
+
     function selectServer(id: string) {
         store.selectServer(id);
         setSelectedId(id);
@@ -30,7 +36,7 @@ export function ServersProvider({ children }: { children: ReactNode}) {
     const currentServer = servers.find(s => s.id === selectedId) ?? null;
 
     return (
-        <ServersContext.Provider value={{ servers, selectedId, currentServer, addServer, selectServer }}>
+        <ServersContext.Provider value={{ servers, selectedId, currentServer, addServer, updateServer, selectServer }}>
             {children}
         </ServersContext.Provider>
     );
