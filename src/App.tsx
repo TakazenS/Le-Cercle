@@ -1,15 +1,15 @@
 import "./App.css";
-import { useAuth } from "./Auth/auth.tsx";
+import { useAuth } from "./Auth/AuthProvider.tsx";
 import { AuthScreen } from "./Auth/AuthScreen.tsx";
 import { AddServers } from "./Servers/AddServers.tsx";
 import { FiServer } from "react-icons/fi";
-import { getUrl } from "./lib.ts";
 import { useState } from "react";
 import { ServersList } from "./Servers/ServersList.tsx";
+import { listServers } from "./Servers/servers.ts";
 
 function App() {
     const { isAuthenticated, logout } = useAuth();
-    const [showServerLink, setShowServerLink] = useState<boolean>(() => getUrl() === null);
+    const [showServerLink, setShowServerLink] = useState<boolean>(() => listServers().length === 0);
 
     if (!isAuthenticated) {
         return (
