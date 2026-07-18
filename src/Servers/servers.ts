@@ -1,6 +1,6 @@
 import { Server } from "../models.ts";
 
-const SERVERS_KEY = "le-cercle-servers";
+const SERVERS_KEY = "servers-list";
 
 function readServers(): Server[] {
     const raw = localStorage.getItem(SERVERS_KEY);

@@ -10,7 +10,7 @@ export interface AuthContextValue {
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-const TOKEN_KEY = "le-cercle-session-token";
+const TOKEN_KEY = "session-token";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));

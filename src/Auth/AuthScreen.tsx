@@ -1,6 +1,6 @@
 import styles from "./AuthScreen.module.css";
 import { useState } from "react";
-import { useAuth } from "./auth.tsx";
+import { useAuth } from "./AuthProvider.tsx";
 
 interface LoginProps {
     onSwitch: () => void;
