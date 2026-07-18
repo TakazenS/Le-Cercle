@@ -39,7 +39,7 @@
 .list {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
@@ -49,6 +49,9 @@
 
 .item {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 20rem;
     text-align: left;
     padding: 0.6rem 0.9rem;
@@ -58,14 +61,36 @@
     background-color: var(--color-bg);
     color: var(--color-text);
     cursor: pointer;
+    font-size: var(--secondary-font-size);
 }
 
 .notSelected:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-tenary);
 }
 
 .selected {
     outline-offset: 2px;
     outline: solid 2px var(--color-accent);
     font-weight: bold;
+}
+
+.iconBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.iconBox button {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: var(--secondary-text);
+    cursor: pointer;
+    padding: 3px;
+}
+
+.iconBox button:hover {
+    color: var(--color-accent);
 }

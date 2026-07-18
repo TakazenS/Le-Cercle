@@ -1,40 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root {
-  --color-bg: #17181c;
-  --color-surface: #1e2025;
-  --color-text: #e9eaed;
-  --secondary-text: #9fa1a3;
-  --color-border: #393e3e;
-  --color-accent: #a06bff;
-  --color-danger: #f85149;
+    --color-bg: #17181c;
+    --color-surface: #1e2025;
+    --color-tenary: #25262c;
+    --color-text: #e9eaed;
+    --secondary-text: #9fa1a3;
+    --color-border: #393e3e;
+    --color-accent: #a06bff;
+    --color-danger: #f85149;
 
-  --font-family: 'Geist';
-  --font-size: 16px;
-  --secondary-font-size: 14px;
+    --font-family: 'Geist';
+    --font-size: 16px;
+    --secondary-font-size: 14px;
+    --tenary-font-size: 12px;
 }
 
 [data-theme="light"] {
-  --color-bg: #ffffff;
-  --color-surface: #f5f4f0;
-  --color-text: #1a1a18;
-  --secondary-text: #9fa1a3;
-  --color-border: #6b6a66;
-  --color-accent: #a06bff;
-  --color-danger: #e5484d;
+    --color-bg: #ffffff;
+    --color-surface: #f5f4f0;
+    --color-tenary: #5d606e;
+    --color-text: #1a1a18;
+    --secondary-text: #9fa1a3;
+    --color-border: #6b6a66;
+    --color-accent: #a06bff;
+    --color-danger: #e5484d;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family), Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family), Arial, Helvetica, sans-serif;
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  width: 100%;
-  min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    width: 100%;
+    min-height: 100vh;
 }
 
 .toolbar {
@@ -82,5 +85,3 @@ body {
     cursor: pointer;
     padding: 5px;
 }
-
-/*========Lib========*/
