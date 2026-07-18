@@ -17,9 +17,9 @@ function App() {
                 {showServerLink && (
                     <AddServers onClose={() => setShowServerLink(false)} />
                 )}
-                <ServersList />
                 <AuthScreen />
                 <div className="toolbar">
+                    <ServersList />
                     <button
                         className="selectServer"
                         onClick={() => {
