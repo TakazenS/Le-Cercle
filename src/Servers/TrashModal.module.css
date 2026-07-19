@@ -1,0 +1,69 @@
+.deleteSection {
+    z-index: 21;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+}
+
+.abstract {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.6rem;
+}
+
+.abstract p {
+    color: var(--secondary-text);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 5.6rem;
+    width: 20rem;
+    background-color: var(--color-surface);
+    border: solid 1px var(--color-border);
+    border-radius: 24px;
+    padding: 1.8rem;
+    gap: 20px;
+}
+
+.btnBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+}
+
+.btn {
+    color: var(--color-text);
+    font-size: var(--font-size);
+    border: solid 1px var(--color-border);
+    font-weight: bold;
+    border-radius: 12px;
+    width: 8rem;
+    height: 2.5rem;
+    cursor: pointer;
+    transition: ease-in-out 60ms;
+}
+
+.btn:hover {
+    outline: solid 2px var(--color-text);
+    outline-offset: 2px;
+}
+
+.btnDelete {
+    background-color: var(--color-accent);
+}
+
+.btnCancel {
+    background-color: var(--color-danger);
+}
