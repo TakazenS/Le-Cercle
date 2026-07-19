@@ -4,7 +4,7 @@ import { FiServer } from "react-icons/fi";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { useAuth } from "./Auth/AuthProvider.tsx";
 import { AuthScreen } from "./Auth/AuthScreen.tsx";
-import { AddServers } from "./Servers/AddServers.tsx";
+import { ManageServers } from "./Servers/ManageServers.tsx";
 import { ServersList } from "./Servers/ServersList.tsx";
 import { listServers } from "./Servers/servers.ts";
 import { useServers } from "./Servers/ServersProvider.tsx";
@@ -19,7 +19,7 @@ function App() {
         return (
             <main>
                 {showAddServers && (
-                    <AddServers onClose={() => setShowAddServers(false)} />
+                    <ManageServers onClose={() => setShowAddServers(false)} />
                 )}
                 {showServerSList && (
                     <ServersList onClose={() => setShowServersList(false)} />
