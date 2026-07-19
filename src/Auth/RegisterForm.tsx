@@ -96,17 +96,17 @@ export function RegisterForm(props: Props) {
                     value={accessCode}
                     onChange={e => setAccessCode(e.target.value)}
                 />
-                <div className={styles.errorContainer}>
-                    {error &&
-                      <p className={styles.errorLabel}>
-                          {error}
-                      </p>
-                    }
-                </div>
                 <button className={styles.submitBtn} type="submit">Register</button>
             </form>
             <div className={styles.switchBtn}>
                 <p>Already have an account ? <button type="button" onClick={onSwitch}>Login</button></p>
+            </div>
+            <div className={styles.errorContainer}>
+                {error &&
+                    <p className={styles.errorLabel}>
+                        {error}
+                    </p>
+                }
             </div>
         </>
     )

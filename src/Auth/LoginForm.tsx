@@ -47,17 +47,17 @@ export function LoginForm(props: Props) {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <div className={styles.errorContainer}>
-                    {error &&
-                      <p className={styles.errorLabel}>
-                          {error}
-                      </p>
-                    }
-                </div>
                 <button className={styles.submitBtn} type="submit">Log In</button>
             </form>
             <div className={styles.switchBtn}>
                 <p>No account yet ? <button type="button" onClick={onSwitch}>Create account</button></p>
+            </div>
+            <div className={styles.errorContainer}>
+                {error &&
+                    <p className={styles.errorLabel}>
+                        {error}
+                    </p>
+                }
             </div>
         </>
     )
