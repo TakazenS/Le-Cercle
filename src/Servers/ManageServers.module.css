@@ -114,6 +114,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 5px;
     padding: 4px 8px;
     border-radius: 8px;
@@ -123,6 +124,13 @@
 .configInputs p {
     color: var(--secondary-text);
     font-size: var(--font-size);
+}
+
+.mergeInputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 .inputs {
@@ -167,4 +175,22 @@
 
 .saveBtn:hover {
     transform: scale(102%);
+}
+
+/*======= Validation =======*/
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+input.invalid,
+div.invalid {
+    animation: shake 0.35s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    input.invalid,
+    div.invalid { animation: none; }
+    border-color: var(--color-danger);
 }

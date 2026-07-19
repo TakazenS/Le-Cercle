@@ -83,14 +83,16 @@
 .errorContainer {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.2rem;
+    margin-top: 0.8rem;
 }
 
 .errorLabel {
     color: red;
+    font-size: var(--font-size);
 }
 
 .submitBtn {
+    margin-top: 0.4rem;
     padding: 1rem;
     border-radius: 12px;
     background-color: var(--color-accent);
