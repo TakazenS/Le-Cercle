@@ -47,6 +47,13 @@ export function updateServer(id: string, patch: Partial<Pick<Server, "name" | "u
     writeServers(servers)
 }
 
+export function removeServer(id: string) {
+    writeServers(readServers().filter(s => s.id !== id));
+    if (getSelectedId() === id) {
+        localStorage.removeItem(SELECTED_SERVER_KEY);
+    }
+}
+
 export function getSelectedId(): string | null {
     return localStorage.getItem(SELECTED_SERVER_KEY);
 }
