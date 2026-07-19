@@ -37,11 +37,11 @@ function App() {
                         }}
                     >
                         {currentServer === null ? (
-                            <p className={styles.text}>No server selected</p>
+                            <p className={styles.textNoServer}>No server selected</p>
                         ) : (
                             <>
                                 <p className={styles.pre}>Current :</p>
-                                <p className={styles.text}>{currentServer?.name} - {currentServer?.url}</p>
+                                <p className={styles.textServer}>{currentServer?.name} - {currentServer?.url}</p>
                                 <MdKeyboardArrowUp className={styles.pre} size={35}/>
                             </>
                         )}

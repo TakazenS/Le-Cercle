@@ -65,7 +65,12 @@ body {
     height: 2.8rem;
 }
 
-.text {
+.textNoServer {
+    color: var(--color-text);
+    padding-right: 8px;
+}
+
+.textServer {
     color: var(--color-text);
 }
 
