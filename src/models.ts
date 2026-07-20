@@ -2,6 +2,7 @@ export interface RegisterPayload {
     email: string;
     first_name: string;
     last_name: string;
+    pseudo: string;
     nickname: string;
     password: string;
     access_code: string;
