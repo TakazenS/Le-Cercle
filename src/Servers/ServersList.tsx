@@ -91,7 +91,12 @@ export function ServersList(props: Props) {
                                 ))}
                             </div>
                         ) : (
-                            <p style={{color: "red"}}>No server found !</p>
+                            <button
+                                className={styles.addBtn}
+                                onClick={() => setShowEditServer(true)}
+                            >
+                                <h2>Add +</h2>
+                            </button>
                         )}
                     </div>
                 </section>

@@ -94,3 +94,18 @@
 .iconBox button:hover {
     color: var(--color-accent);
 }
+
+.addBtn {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    font-weight: bold;
+    border: solid 1px var(--color-border);
+    border-radius: 12px;
+    padding: 1rem 8.4rem;
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
+.addBtn:hover {
+    transform: scale(102%);
+}
