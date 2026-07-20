@@ -12,16 +12,43 @@ export function LoginForm(props: Props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [invalid, setInvalid] = useState<string[]>([]);
+
+    const isInvalid = (field: string) => invalid.includes(field);
+
+    const clearInvalid = (field: string) =>
+        setInvalid(prev => prev.filter(f => f !== field));
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
+        const missing: string[] = [];
+
+        if (!email.trim()) {
+            missing.push("email");
+        }
+        if (!password.trim()) {
+            missing.push("password");
+        }
+
+        if (missing.length > 0) {
+            setInvalid(missing);
+            setError(null);
+            return;
+        }
+
+        const validate = {
+            email: email.trim().toLowerCase(),
+            password: password,
+        }
+
         try {
             await login({
-                email,
-                password
+                email: validate.email,
+                password: validate.password,
             });
             setError(null);
         } catch (err) {
+            setInvalid(["email", "password"]);
             setError((err as Error).message);
         }
     }
@@ -32,19 +59,21 @@ export function LoginForm(props: Props) {
                 <label className={styles.label} htmlFor="email">EMAIL</label>
                 <input
                     id="email"
-                    className={styles.longInput}
+                    className={`${styles.longInput} ${isInvalid("email") ? styles.invalid : ""}`}
                     type="text"
                     placeholder="Email"
                     value={email}
+                    onAnimationEnd={() => clearInvalid("email")}
                     onChange={e => setEmail(e.target.value)}
                 />
                 <label className={styles.label} htmlFor="password">PASSWORD</label>
                 <input
                     id="password"
-                    className={styles.longInput}
+                    className={`${styles.longInput} ${isInvalid("password") ? styles.invalid : ""}`}
                     type="password"
                     placeholder="Password"
                     value={password}
+                    onAnimationEnd={() => clearInvalid("password")}
                     onChange={e => setPassword(e.target.value)}
                 />
                 <button className={styles.submitBtn} type="submit">Log In</button>
@@ -53,11 +82,13 @@ export function LoginForm(props: Props) {
                 <p>No account yet ? <button type="button" onClick={onSwitch}>Create account</button></p>
             </div>
             <div className={styles.errorContainer}>
-                {error &&
-                    <p className={styles.errorLabel}>
+                {error ? (
+                    <p className={`${styles.errorLabel} ${isInvalid("email") || isInvalid("password") ? styles.invalid : ""}`}>
                         {error}
                     </p>
-                }
+                ) : (
+                    <p></p>
+                )}
             </div>
         </>
     )
