@@ -128,3 +128,21 @@
 .switchBtn button:hover {
     text-decoration: underline;
 }
+
+/*======= Validation =======*/
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+input.invalid,
+p.invalid {
+    animation: shake 0.35s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    input.invalid,
+    p.invalid { animation: none; }
+    border-color: var(--color-danger);
+}
