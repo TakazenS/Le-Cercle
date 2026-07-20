@@ -2,6 +2,7 @@ mod models;
 mod auth;
 mod handlers;
 mod bootstrap;
+mod validation;
 
 use handlers::{ handler, register, login };
 use bootstrap::lead_in;
