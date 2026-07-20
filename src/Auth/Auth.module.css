@@ -64,6 +64,63 @@
     font-weight: bold;
 }
 
+.questionMarkLabel {
+    display: flex;
+    width: 5px;
+    gap: 5px;
+}
+
+.tooltipWrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: help;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 16rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    background-color: var(--color-surface);
+    border: solid 1px var(--color-border);
+    color: var(--color-text);
+    font-size: var(--secondary-font-size);
+    text-align: justify;
+    pointer-events: none;
+    z-index: 20;
+    font-weight: normal;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.tooltipWrapper:hover .tooltip,
+.tooltipWrapper:focus-visible .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease 0.5s, visibility 0s linear 0.5s;
+}
+
+.important {
+    font-weight: bold;
+    color: var(--color-accent);
+}
+
+.questionMark {
+    color: var(--secondary-text);
+    transition: ease-in-out 0.5s;
+}
+
+.questionMark:hover {
+    transition-delay: 0.5s;
+    color: var(--color-accent);
+}
+
 .longInput {
     padding: 0.8rem 1rem;
     width: 25rem;
