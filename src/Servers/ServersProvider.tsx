@@ -25,8 +25,7 @@ export function ServersProvider({ children }: { children: ReactNode}) {
 
     function addServer(url: string, name: string) {
         store.addServer(url, name);
-        setServers(store.listServers());
-        setSelectedId(store.getSelectedId);
+        refresh();
     }
 
     function updateServer(id: string, patch: Partial<Pick<Server, "name" | "url">>) {
