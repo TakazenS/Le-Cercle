@@ -32,7 +32,7 @@ export function PasswordInput(props: PropsPasswordInputs) {
                 onClick={() => setShow(v => !v)}
                 aria-label={show ? "Hide password" : "Show password"}
             >
-                {show ? <FiEye size={22} /> : <FiEyeOff size={22} />}
+                {show ? <FiEye size={20} /> : <FiEyeOff size={20} />}
         </button>
         </div>
 );
