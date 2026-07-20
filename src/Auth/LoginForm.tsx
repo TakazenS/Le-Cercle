@@ -1,7 +1,7 @@
 import styles from "./Auth.module.css";
 import { useAuth } from "./AuthProvider.tsx";
 import { useState } from "react";
-import {PasswordInput} from "../Servers/PasswordInput.tsx";
+import {PasswordInput} from "./PasswordInput.tsx";
 
 interface Props {
     onSwitch: () => void;
