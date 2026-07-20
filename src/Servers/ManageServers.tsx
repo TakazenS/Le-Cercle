@@ -8,13 +8,13 @@ interface Props {
     editServer?: Server;
 }
 
+const regIp = /^\d{1,3}(\.\d{1,3}){3}$/;
+const regPort = /^\d{1,4}$/
+
 export function ManageServers(props: Props) {
     const { onClose, editServer } = props;
     const { addServer, updateServer } = useServers();
     const parsed = editServer ? parseUrl(editServer.url) : null;
-    const regIp = /^\d{1,3}(\.\d{1,3}){3}$/;
-    const regPort = /^\d{1,4}$/
-
     const [serverName, setServerName] = useState<string>(editServer?.name ?? "");
     const [protocol, setProtocol] = useState<string>(parsed?.protocol ?? "http://");
     const [ip, setIp] = useState<boolean>(parsed ? isIp(parsed.host) : true);
