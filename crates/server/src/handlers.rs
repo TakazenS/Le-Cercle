@@ -1,13 +1,15 @@
 use axum::{ Json, extract::State, http::StatusCode };
 use argon2::{ Argon2, PasswordHash, PasswordVerifier };
-use tracing::{ info, warn };
+use tracing::{ info, warn, error };
 use uuid::Uuid;
 use crate::auth::{ create_hash, generate_session_token };
 use crate::models::{ RegisterRequest, LoginRequest, AuthResponse };
+use crate::validation::{ PATTERNS, is_strong_password };
 
 /*======= Helpers =======*/
 fn internal_error(e: sqlx::Error) -> (StatusCode, String) {
-    (StatusCode::INTERNAL_SERVER_ERROR, e.to_string())
+    error!("Database error : {e}");
+    (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error".to_string())
 }
 
 async fn create_session(pool: &sqlx::PgPool, user_id: Uuid) -> Result<String, (StatusCode, String)> {
@@ -28,6 +30,43 @@ pub async fn register(
     Json(payload): Json<RegisterRequest>,
 ) -> Result<Json<AuthResponse>, (StatusCode, String)> {
     info!("Registration request for : {}", payload.email);
+
+    let first_name = payload.first_name.trim();
+    let last_name = payload.last_name.trim();
+    let email = &payload.email.trim().to_lowercase();
+    let nickname = &payload.nickname.trim();
+    let pseudo = payload.pseudo.trim();
+    let password = &payload.password;
+    let access_code = payload.access_code.trim().to_uppercase();
+    
+    if !PATTERNS.name.is_match(first_name) {
+        warn!("Registration refused : invalid first name for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid first name !".to_string()));
+    }
+    if !PATTERNS.name.is_match(last_name) {
+        warn!("Registration refused : invalid last name for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid last name !".to_string()));
+    }
+    if !PATTERNS.email.is_match(&email) {
+        warn!("Registration refused : invalid email for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid email !".to_string()));
+    }
+    if !PATTERNS.pseuname.is_match(nickname) {
+        warn!("Registration refused : invalid nickname for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid nickname !".to_string()));
+    }
+    if !PATTERNS.pseuname.is_match(pseudo) {
+        warn!("Registration refused : invalid pseudo for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid pseudo !".to_string()));
+    }
+    if !is_strong_password(password) {
+        warn!("Registration refused : weak password for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid password !".to_string()));
+    }
+    if !PATTERNS.access_code.is_match(&access_code) {
+        warn!("Registration refused : invalid access code for {}", email);
+        return Err((StatusCode::BAD_REQUEST, "Invalid access code !".to_string()));
+    }
     
     let stored_hash: Option<String> =
         sqlx::query_scalar("SELECT access_code_hash FROM server_config WHERE id = 1")
@@ -39,33 +78,43 @@ pub async fn register(
     let parsed = PasswordHash::new(&stored_hash)
         .map_err(|_| (StatusCode::INTERNAL_SERVER_ERROR, "Invalid stored hash".to_string()))?;
     if Argon2::default()
-        .verify_password(payload.access_code.as_bytes(), &parsed)
+        .verify_password(access_code.as_bytes(), &parsed)
         .is_err()
     {
-        warn!("Registration refused : invalid access code for {}", payload.email);
+        warn!("Registration refused : invalid access code for {}", email);
         return Err((StatusCode::FORBIDDEN, "Invalid access code !".to_string()));
     }
 
-    let existing_account: Option<Uuid> = sqlx::query_scalar("SELECT id FROM users WHERE email = $1")
-        .bind(&payload.email)
+    let existing_email: Option<Uuid> = sqlx::query_scalar("SELECT id FROM users WHERE email = $1")
+        .bind(email)
         .fetch_optional(&pool).await.map_err(internal_error)?;
-    if existing_account.is_some() {
+    if existing_email.is_some() {
+        warn!("Registration refused : email already used for {}", email);
         return Err((StatusCode::CONFLICT, "Email already used !".to_string()));
     }
+
+    let existing_nickname: Option<Uuid> = sqlx::query_scalar("SELECT id FROM users WHERE nickname = $1")
+        .bind(nickname)
+        .fetch_optional(&pool).await.map_err(internal_error)?;
+    if existing_nickname.is_some() {
+        warn!("Registration refused : nickname already used for {}", nickname);
+        return Err((StatusCode::CONFLICT, "Nickname already used !".to_string()));
+    }
     
-    let password_hash = create_hash(&payload.password);
+    let password_hash = create_hash(password);
     let mut tx = pool.begin().await.map_err(internal_error)?;
     
     let user_id: Uuid = sqlx::query_scalar(
-        "INSERT INTO users (email, first_name, last_name, password_hash, nickname)
-             VALUES ($1, $2, $3, $4, $5)
+        "INSERT INTO users (email, first_name, last_name, password_hash, nickname, pseudo)
+             VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING id",
     )
-    .bind(&payload.email)
-    .bind(&payload.first_name)
-    .bind(&payload.last_name)
+    .bind(email)
+    .bind(first_name)
+    .bind(last_name)
     .bind(password_hash)
-    .bind(&payload.nickname)
+    .bind(nickname)
+    .bind(pseudo)
     .fetch_one(&mut *tx).await.map_err(internal_error)?;
     
     let current_owner: Option<Uuid> = 
@@ -94,9 +143,9 @@ pub async fn register(
 
     tx.commit().await.map_err(internal_error)?;
 
-    info!("Registration accepted : access code valid for {}", payload.email);
+    info!("Registration accepted : access code valid for {}", email);
     let token = create_session(&pool, user_id).await?;
-    info!("Creating session for : {} ({})", payload.email, payload.nickname);
+    info!("Creating session for : {} ({})", email, nickname);
     Ok(Json(AuthResponse { token }))
 }
 

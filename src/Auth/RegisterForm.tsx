@@ -6,6 +6,15 @@ interface Props {
     onSwitch: () => void;
 }
 
+const reg = {
+    name: /[^\p{L}\p{M}' -]/gu,
+    emailChar: /[^a-zA-Z0-9._%+@-]/g,
+    emailFormat: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    nickname: /[^\p{L}\p{M}\p{N}]/gu,
+    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/,
+    accessCode: /[^a-zA-Z0-9]/g,
+}
+
 export function RegisterForm(props: Props) {
     const { onSwitch } = props
     const { register } = useAuth();
@@ -24,44 +33,36 @@ export function RegisterForm(props: Props) {
     const clearInvalid = (field: string) =>
         setInvalid(prev => prev.filter(f => f !== field));
 
-    const reg = {
-        name: /[^\p{L}\p{M}' -]/gu,
-        emailChar: /[^a-zA-Z0-9._%+@-]/g,
-        emailFormat: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        nickname: /[^\p{L}\p{M}\p{N}]/gu,
-        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/,
-        accessCode: /[^a-zA-Z0-9]/g,
-    }
-
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
         const missing: string[] = [];
 
-        if (!firstName.trim() || firstName.length < 2 || reg.name.test(firstName)) {
+        if (!firstName.trim() || firstName.length < 2 || firstName.length > 64 || reg.name.test(firstName)) {
             missing.push("firstName");
         }
-        if (!lastName.trim() || lastName.length < 2 || reg.name.test(lastName)) {
+        if (!lastName.trim() || lastName.length < 2 || lastName.length > 64 || reg.name.test(lastName)) {
             missing.push("lastName");
         }
-        if (!email.trim() || !reg.emailFormat.test(email)) {
+        if (!email.trim() || email.length < 5 || email.length > 128 || !reg.emailFormat.test(email)) {
             missing.push("email");
         }
-        if (!nickname.trim() || nickname.length < 2 || reg.nickname.test(nickname)) {
+        if (!nickname.trim() || nickname.length < 2 || nickname.length > 32 || reg.nickname.test(nickname)) {
             missing.push("nickname");
         }
-        if (!password.trim() || !reg.password.test(password)) {
+        if (!password.trim() || confirmPassword !== password|| !reg.password.test(password)) {
             missing.push("password");
+            missing.push("confirmPassword");
         }
         if (!confirmPassword.trim() || password !== confirmPassword) {
             missing.push("password");
             missing.push("confirmPassword");
         }
-        if (!accessCode.trim() || accessCode.length < 8 || reg.accessCode.test(accessCode)) {
+        if (!accessCode.trim() || accessCode.length != 8 || reg.accessCode.test(accessCode)) {
             missing.push("accessCode");
         }
 
         if (missing.length > 0) {
-            setInvalid(missing);
+            setInvalid(missing)
             setError(null);
             return;
         }
@@ -70,7 +71,7 @@ export function RegisterForm(props: Props) {
             email: email.trim().toLowerCase(),
             firstName: firstName.trim(),
             lastName: lastName.trim(),
-            nickname: nickname.trim().toLowerCase(),
+            pseuname: nickname.trim().toLowerCase(),
             password: password,
             accessCode: accessCode.trim().toUpperCase(),
         }
@@ -80,13 +81,22 @@ export function RegisterForm(props: Props) {
                 email: validate.email,
                 first_name: validate.firstName,
                 last_name: validate.lastName,
-                nickname: validate.nickname,
+                pseudo: validate.pseuname,
+                nickname: validate.pseuname,
                 password: validate.password,
                 access_code: validate.accessCode,
             });
             setError(null);
         } catch (err) {
-            setError((err as Error).message);
+            const message = (err as Error).message;
+            setError(message);
+            if ((message.toLowerCase().startsWith("email"))) {
+                setInvalid(["email"]);
+            } else if (message.toLowerCase().startsWith("nickname")) {
+                setInvalid(["nickname"]);
+            } else if (message.toLowerCase().includes("access code")) {
+                setInvalid(["accessCode"])
+            }
         }
     }
 
@@ -97,41 +107,41 @@ export function RegisterForm(props: Props) {
                     <div className={styles.name}>
                         <label className={styles.label} htmlFor="firstName">FIRST NAME</label>
                         <input
-                            id={firstName}
+                            id="firstName"
                             className={`${styles.smallInput} ${isInvalid("firstName") ? styles.invalid : ""}`}
                             type="text"
                             placeholder="Jonh"
                             value={firstName}
                             onAnimationEnd={() => clearInvalid("firstName")}
-                            onChange={e => setFirstName(e.target.value.replace(reg.name, "").slice(0, 128))}
+                            onChange={e => setFirstName(e.target.value.replace(reg.name, "").slice(0, 64))}
                         />
                     </div>
                     <div className={styles.name}>
                         <label className={styles.label} htmlFor="lastName">LAST NAME</label>
                         <input
-                            id={lastName}
+                            id="lastName"
                             className={`${styles.smallInput} ${isInvalid("lastName") ? styles.invalid : ""}`}
                             type="text"
                             placeholder="Doe"
                             value={lastName}
                             onAnimationEnd={() => clearInvalid("lastName")}
-                            onChange={e => setLastName(e.target.value.replace(reg.name, "").slice(0, 128))}
+                            onChange={e => setLastName(e.target.value.replace(reg.name, "").slice(0, 64))}
                         />
                     </div>
                 </div>
                 <label className={styles.label} htmlFor="email">EMAIL</label>
                 <input
-                    id={email}
+                    id="email"
                     className={`${styles.longInput} ${isInvalid("email") ? styles.invalid : ""}`}
                     type="text"
                     placeholder="example@example.com"
                     value={email}
                     onAnimationEnd={() => clearInvalid("email")}
-                    onChange={e => setEmail(e.target.value.replace(reg.emailChar, "").slice(0, 256))}
+                    onChange={e => setEmail(e.target.value.replace(reg.emailChar, "").slice(0, 128))}
                 />
                 <label className={styles.label} htmlFor="nickname">NICKNAME</label>
                 <input
-                    id={nickname}
+                    id="nickname"
                     className={`${styles.longInput} ${isInvalid("nickname") ? styles.invalid : ""}`}
                     type="text"
                     placeholder="Your nickname"
@@ -141,7 +151,7 @@ export function RegisterForm(props: Props) {
                 />
                 <label className={styles.label} htmlFor="password">PASSWORD</label>
                 <input
-                    id={password}
+                    id="password"
                     className={`${styles.longInput} ${isInvalid("password") ? styles.invalid : ""}`}
                     type="password"
                     placeholder="Your password"
@@ -150,7 +160,7 @@ export function RegisterForm(props: Props) {
                     onChange={e => setPassword(e.target.value)}
                 />
                 <input
-                    id={confirmPassword}
+                    id="confirmPassword"
                     className={`${styles.longInput} ${isInvalid("confirmPassword") ? styles.invalid : ""}`}
                     type="password"
                     placeholder="Confirm your password"
@@ -160,7 +170,7 @@ export function RegisterForm(props: Props) {
                 />
                 <label className={styles.label} htmlFor="accessCode">ACCESS CODE</label>
                 <input
-                    id={accessCode}
+                    id="accessCode"
                     className={`${styles.longInput} ${isInvalid("accessCode") ? styles.invalid : ""}`}
                     type="text"
                     placeholder="A7DI9K2P"
@@ -174,11 +184,13 @@ export function RegisterForm(props: Props) {
                 <p>Already have an account ? <button type="button" onClick={onSwitch}>Log In</button></p>
             </div>
             <div className={styles.errorContainer}>
-                {error &&
-                    <p className={styles.errorLabel}>
+                {error ? (
+                    <p className={`${styles.errorLabel} ${isInvalid("email") || isInvalid("nickname") || isInvalid("accessCode") ? styles.invalid : ""}`}>
                         {error}
                     </p>
-                }
+                ) : (
+                    <p></p>
+                )}
             </div>
         </>
     )
