@@ -90,17 +90,12 @@ export function ManageServers(props: Props) {
                 <div className={styles.abstract}>
                     <h1>Le Cercle</h1>
                     {editServer ? (
-                        <p>Change server information.</p>
+                        <p>Change server connexion information.</p>
                     ) : (
                         <p>Add a server to your server list.</p>
                     )}
                 </div>
                 <div className={styles.card}>
-                    {editServer ? (
-                        <h3>Change a server connexion</h3>
-                    ) : (
-                        <h3>Add a server connexion</h3>
-                    )}
                     <div className={styles.serverNameBox}>
                         <label htmlFor="serverName">Server Name</label>
                         <input
