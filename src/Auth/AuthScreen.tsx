@@ -14,7 +14,7 @@ export function AuthScreen() {
                     {mode === "login" ? (
                         <p>Happy to see you.</p>
                     ) : (
-                        <p>You need the server access code.</p>
+                        <p>Create your account.</p>
                     )}
                 </div>
                 <div>{mode === "login" ? (
