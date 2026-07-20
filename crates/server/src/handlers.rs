@@ -47,7 +47,7 @@ pub async fn register(
         warn!("Registration refused : invalid last name for {}", email);
         return Err((StatusCode::BAD_REQUEST, "Invalid last name !".to_string()));
     }
-    if !PATTERNS.email.is_match(&email) {
+    if !PATTERNS.email.is_match(&email) || email.chars().count() > 128 {
         warn!("Registration refused : invalid email for {}", email);
         return Err((StatusCode::BAD_REQUEST, "Invalid email !".to_string()));
     }
