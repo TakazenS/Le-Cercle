@@ -22,8 +22,8 @@
 }
 
 .smallInput:focus {
-    outline-offset: 2px;
-    outline: solid 2px var(--color-accent);
+    border: solid 2px var(--color-accent);
+    outline: solid 2px var(--color-accent-50);
 }
 
 /*=======Shared=======*/
@@ -55,6 +55,7 @@
     border-radius: 24px;
     padding: 1.8rem 2.2rem;
     margin-bottom: 1.6rem;
+    box-shadow: 0 0 50px var(--shadow);
 }
 
 .label {
@@ -133,8 +134,8 @@
 }
 
 .longInput:focus {
-    outline-offset: 2px;
-    outline: solid 2px var(--color-accent);
+    border: solid 2px var(--color-accent);
+    outline: solid 2px var(--color-accent-50);
 }
 
 .errorContainer {
@@ -153,8 +154,8 @@
     padding: 1rem;
     border-radius: 12px;
     background-color: var(--color-accent);
-    border: none;
-    color: var(--color-text);
+    border: solid 1px var(--color-border);
+    color: var(--color-text-white);
     font-size: var(--font-size);
     font-weight: bold;
     cursor: pointer;

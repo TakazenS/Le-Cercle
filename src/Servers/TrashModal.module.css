@@ -33,6 +33,7 @@
     border-radius: 24px;
     padding: 1.8rem;
     gap: 20px;
+    box-shadow: 0 0 50px var(--shadow);
 }
 
 .btnBox {
@@ -44,7 +45,7 @@
 }
 
 .btn {
-    color: var(--color-text);
+    color: var(--color-text-white);
     font-size: var(--font-size);
     border: solid 1px var(--color-border);
     font-weight: bold;
@@ -52,12 +53,11 @@
     width: 8rem;
     height: 2.5rem;
     cursor: pointer;
-    transition: ease-in-out 60ms;
+    transition: ease-in-out 0.2s;
 }
 
 .btn:hover {
-    outline: solid 2px var(--color-text);
-    outline-offset: 2px;
+    transform: scale(102%);
 }
 
 .btnDelete {

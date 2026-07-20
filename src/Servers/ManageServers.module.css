@@ -33,6 +33,7 @@
     border-radius: 24px;
     padding: 1.8rem 2.2rem;
     gap: 20px;
+    box-shadow: 0 0 50px var(--shadow);
 }
 
 .btnContainer {
@@ -65,8 +66,8 @@
     color: var(--color-text);
     background-color: var(--color-bg);
     font-weight: bold;
-    outline-offset: 2px;
-    outline: solid 2px var(--color-accent);
+    border: solid 2px var(--color-accent);
+    outline: solid 2px var(--color-accent-50);
 }
 
 .serverNameBox {
@@ -92,8 +93,8 @@
 }
 
 .serverNameBox input:focus {
-    outline-offset: 2px;
-    outline: solid 2px var(--color-accent);
+    border: solid 2px var(--color-accent);
+    outline: solid 2px var(--color-accent-50);
 }
 
 .largeSeparator {
@@ -136,12 +137,14 @@
     color: var(--color-text);
     background-color: transparent;
     border-right: none;
+    border-left: none;
+    border-top: none;
     border-bottom: solid 1px var(--color-border);
     font-size: var(--font-size);
 }
 
 .ipInput {
-    width: 7.1rem;
+    width: 7.4rem;
 }
 
 .portInput {
@@ -150,6 +153,10 @@
 
 .serverDnsInput {
     width: 15.2em;
+}
+
+.inputs:focus {
+    outline: none;
 }
 
 .saveBtnBox {
@@ -165,7 +172,7 @@
     border-radius: 12px;
     border: solid 1px var(--color-border);
     font-size: var(--font-size);
-    color: var(--color-text);
+    color: var(--color-text-white);
     background-color: var(--color-accent);
     cursor: pointer;
     font-weight: bold;

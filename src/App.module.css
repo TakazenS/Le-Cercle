@@ -5,11 +5,14 @@
     --color-surface: #1e2025;
     --color-tenary: #25262c;
     --color-text: #e9eaed;
+    --color-text-white: #e9eaed;
     --secondary-text: #9fa1a3;
     --color-border: #393e3e;
-    --color-accent: #a06bff;
     --color-danger: #f85149;
+    --shadow: rgba(0, 0, 0, 0.5);
 
+    --color-accent: #9563ed;
+    --color-accent-50: rgba(149, 99, 237, 0.5);
     --font-family: 'Geist';
     --font-size: 16px;
     --secondary-font-size: 14px;
@@ -17,14 +20,14 @@
 }
 
 [data-theme="light"] {
-    --color-bg: #ffffff;
-    --color-surface: #f5f4f0;
-    --color-tenary: #5d606e;
+    --color-bg: #f1f1f1;
+    --color-surface: #e3e3e3;
+    --color-tenary: #f8f8f8;
     --color-text: #1a1a18;
-    --secondary-text: #9fa1a3;
-    --color-border: #6b6a66;
-    --color-accent: #a06bff;
+    --secondary-text: #4a4a4a;
+    --color-border: #acaba3;
     --color-danger: #e5484d;
+    --shadow: rgba(0, 0, 0, 0.5);
 }
 
 input[type="password"]::-ms-reveal,
