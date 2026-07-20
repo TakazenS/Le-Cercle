@@ -176,7 +176,7 @@ export function RegisterForm(props: Props) {
                     placeholder="A7DI9K2P"
                     value={accessCode}
                     onAnimationEnd={() => clearInvalid("accessCode")}
-                    onChange={e => {setAccessCode(e.target.value.replace(reg.accessCode, "").slice(0, 8))}}
+                    onChange={e => {setAccessCode(e.target.value.replace(reg.accessCode, "").slice(0, 8).toUpperCase())}}
                 />
                 <button className={styles.submitBtn} type="submit">Register</button>
             </form>
