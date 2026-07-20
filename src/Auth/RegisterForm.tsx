@@ -1,7 +1,8 @@
 import styles from "./Auth.module.css";
 import { useAuth } from "./AuthProvider.tsx";
 import { useState } from "react";
-import { PasswordInput } from "../Servers/PasswordInput.tsx";
+import { PasswordInput } from "./PasswordInput.tsx";
+import { RxQuestionMarkCircled } from "react-icons/rx";
 
 interface Props {
     onSwitch: () => void;
@@ -140,7 +141,24 @@ export function RegisterForm(props: Props) {
                     onAnimationEnd={() => clearInvalid("email")}
                     onChange={e => setEmail(e.target.value.replace(reg.emailChar, "").slice(0, 128))}
                 />
-                <label className={styles.label} htmlFor="nickname">NICKNAME</label>
+                <label
+                    className={`${styles.label} ${styles.questionMarkLabel}`}
+                    tabIndex={0}
+                    htmlFor="nickname"
+                >
+                    NICKNAME
+                    <span className={styles.tooltipWrapper}>
+                        <RxQuestionMarkCircled className={styles.questionMark} size={15} />
+                        <span className={styles.tooltip}>
+                            <p>
+                                This nickname is <span className={styles.important}>unique</span>,
+                                it can only contain <span className={styles.important}>lower case letters</span> and <span className={styles.important}>numbers</span>.
+                                While your account created, you'll be allowed to change it, but also customise
+                                your visible nickname without restrictions.
+                            </p>
+                        </span>
+                    </span>
+                </label>
                 <input
                     id="nickname"
                     className={`${styles.longInput} ${isInvalid("nickname") ? styles.invalid : ""}`}
@@ -150,7 +168,24 @@ export function RegisterForm(props: Props) {
                     onAnimationEnd={() => clearInvalid("nickname")}
                     onChange={e => setNickname(e.target.value.replace(reg.nickname, "").slice(0, 32))}
                 />
-                <label className={styles.label} htmlFor="password">PASSWORD</label>
+                <label
+                    className={`${styles.label} ${styles.questionMarkLabel}`}
+                    tabIndex={0}
+                    htmlFor="password"
+                >
+                    PASSWORD
+                    <span className={styles.tooltipWrapper}>
+                        <RxQuestionMarkCircled className={styles.questionMark} size={15} />
+                        <span className={styles.tooltip}>
+                            <p><strong>Your password have to contain :</strong></p>
+                            <p>- At least <span className={styles.important}>12</span> character</p>
+                            <p>- <span className={styles.important}>1</span> special character</p>
+                            <p>- <span className={styles.important}>1</span> lower case letter</p>
+                            <p>- <span className={styles.important}>1</span> upper case letter</p>
+                            <p>- <span className={styles.important}>1</span> number</p>
+                        </span>
+                    </span>
+                </label>
                 <PasswordInput
                     id="password"
                     placeholder="Your password"
