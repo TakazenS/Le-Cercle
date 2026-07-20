@@ -46,7 +46,7 @@ function App() {
                             <p className={styles.textNoServer}>No server selected</p>
                         ) : (
                             <>
-                                <p className={styles.pre}>Current :</p>
+                                <p className={styles.pre}><strong>Current :</strong></p>
                                 <p className={styles.textServer}>{currentServer?.name} - {currentServer?.url}</p>
                                 <MdKeyboardArrowUp className={styles.pre} size={35}/>
                             </>
