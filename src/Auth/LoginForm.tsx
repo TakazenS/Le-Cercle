@@ -1,6 +1,7 @@
 import styles from "./Auth.module.css";
 import { useAuth } from "./AuthProvider.tsx";
 import { useState } from "react";
+import {PasswordInput} from "../Servers/PasswordInput.tsx";
 
 interface Props {
     onSwitch: () => void;
@@ -67,14 +68,13 @@ export function LoginForm(props: Props) {
                     onChange={e => setEmail(e.target.value)}
                 />
                 <label className={styles.label} htmlFor="password">PASSWORD</label>
-                <input
+                <PasswordInput
                     id="password"
-                    className={`${styles.longInput} ${isInvalid("password") ? styles.invalid : ""}`}
-                    type="password"
                     placeholder="Password"
                     value={password}
+                    onChange={setPassword}
+                    className={`${styles.longInput} ${isInvalid("password") ? styles.invalid : ""}`}
                     onAnimationEnd={() => clearInvalid("password")}
-                    onChange={e => setPassword(e.target.value)}
                 />
                 <button className={styles.submitBtn} type="submit">Log In</button>
             </form>

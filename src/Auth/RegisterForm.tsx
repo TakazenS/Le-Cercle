@@ -1,6 +1,7 @@
 import styles from "./Auth.module.css";
 import { useAuth } from "./AuthProvider.tsx";
 import { useState } from "react";
+import { PasswordInput } from "../Servers/PasswordInput.tsx";
 
 interface Props {
     onSwitch: () => void;
@@ -18,6 +19,7 @@ const reg = {
 export function RegisterForm(props: Props) {
     const { onSwitch } = props
     const { register } = useAuth();
+    const [invalid, setInvalid] = useState<string[]>([]);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -26,7 +28,6 @@ export function RegisterForm(props: Props) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [accessCode, setAccessCode] = useState("");
     const [error, setError] = useState<string | null>(null);
-    const [invalid, setInvalid] = useState<string[]>([]);
 
     const isInvalid = (field: string) => invalid.includes(field);
 
@@ -150,23 +151,21 @@ export function RegisterForm(props: Props) {
                     onChange={e => setNickname(e.target.value.replace(reg.nickname, "").slice(0, 32))}
                 />
                 <label className={styles.label} htmlFor="password">PASSWORD</label>
-                <input
+                <PasswordInput
                     id="password"
-                    className={`${styles.longInput} ${isInvalid("password") ? styles.invalid : ""}`}
-                    type="password"
                     placeholder="Your password"
                     value={password}
+                    onChange={setPassword}
+                    className={`${styles.longInput} ${isInvalid("password") ? styles.invalid : ""}`}
                     onAnimationEnd={() => clearInvalid("password")}
-                    onChange={e => setPassword(e.target.value)}
                 />
-                <input
+                <PasswordInput
                     id="confirmPassword"
-                    className={`${styles.longInput} ${isInvalid("confirmPassword") ? styles.invalid : ""}`}
-                    type="password"
                     placeholder="Confirm your password"
                     value={confirmPassword}
+                    onChange={setConfirmPassword}
+                    className={`${styles.longInput} ${isInvalid("confirmPassword") ? styles.invalid : ""}`}
                     onAnimationEnd={() => clearInvalid("confirmPassword")}
-                    onChange={e => setConfirmPassword(e.target.value)}
                 />
                 <label className={styles.label} htmlFor="accessCode">ACCESS CODE</label>
                 <input
