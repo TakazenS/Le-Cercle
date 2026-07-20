@@ -41,7 +41,6 @@ export function ServersList(props: Props) {
                         <p>Select a server to join.</p>
                     </div>
                     <div className={styles.card}>
-                        <h3>Select a server</h3>
                         {servers.length !== 0 ? (
                             <div className={styles.list}>
                                 {servers.map(s => (
