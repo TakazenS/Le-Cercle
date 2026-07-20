@@ -27,6 +27,11 @@
     --color-danger: #e5484d;
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
 * {
     margin: 0;
     padding: 0;
