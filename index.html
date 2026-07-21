@@ -1,14 +1,88 @@
 <!doctype html>
-<html lang="fr-FR">
+<html lang="en-EN">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Le Cercle</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+
+    <script>
+      (function () {
+        const root = document.documentElement;
+
+        const theme = localStorage.getItem("user-theme") === "light" ? "light" : "dark";
+        if (theme === "light") root.setAttribute("data-theme", "light");
+
+        root.style.setProperty("--boot-bg", theme === "light" ? "#f1f1f1" : "#17181c");
+        root.style.setProperty("--boot-track", theme === "light" ? "#b6c6c6" : "#393e3e");
+
+        try {
+          const saved = localStorage.getItem("user-accent");
+          if (saved) {
+            const a = JSON.parse(saved);
+            if (typeof a.r === "number") {
+              root.style.setProperty("--color-accent", `rgba(${a.r}, ${a.g}, ${a.b}, ${a.a})`);
+              root.style.setProperty("--color-accent-50", `rgba(${a.r}, ${a.g}, ${a.b}, 0.5)`);
+            }
+          }
+        } catch (e) { /* Ignore */ }
+      })();
+    </script>
+
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        background-color: var(--boot-bg, #17181c);
+      }
+
+      #root {
+        height: 100%;
+      }
+
+      .boot {
+        position: absolute;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        gap: 16px;
+        font-family: 'Geist', system-ui, sans-serif;
+        color: var(--secondary-text, #aeb1b3);
+        background-color: var(--boot-bg);
+      }
+
+      .boot-spinner {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 5px solid var(--boot-track, #393e3e);
+        border-top-color: var(--color-accent, rgba(149, 99, 237, 1));
+        animation: boot-spin 1s linear infinite;
+      }
+
+      @keyframes boot-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="boot">
+        <div class="boot-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
