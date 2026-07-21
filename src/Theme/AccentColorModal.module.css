@@ -86,9 +86,8 @@
     order: -1;
 }
 
-.colorPicker :global(.react-colorful__hue),
-.colorPicker :global(.react-colorful__alpha){
-    height: 14px;
+.colorPicker :global(.react-colorful__hue) {
+    height: 16px;
     border-radius: 5px;
 }
 
