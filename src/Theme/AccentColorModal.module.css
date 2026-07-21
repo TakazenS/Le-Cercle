@@ -27,7 +27,7 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    max-height: 26rem;
+    min-height: 26rem;
     min-width: 22rem;
     padding: 1.6rem 1.2rem;
     border-radius: 24px;
@@ -41,6 +41,86 @@
     font-weight: bold;
     text-align: left;
     width: 20.6rem;
-    margin-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
 
+.swatches {
+    display: flex;
+    justify-content: space-around;
+}
+
+.swatch {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.swatch:hover {
+    transform: scale(1.12);
+}
+
+.swatch.selected {
+    box-shadow: none;
+    outline: solid 2px var(--color-accent-50);
+    outline-offset: 4px;
+}
+
+.colorPicker :global(.react-colorful) {
+    width: 18rem;
+    height: 15rem;
+    padding: 20px 20px 20px 20px;
+    border-radius: 12px;
+    background: var(--color-tenary);
+}
+
+.colorPicker :global(.react-colorful__saturation) {
+    margin: 25px 0 0 0;
+    border-radius: 5px;
+    border-bottom: none;
+}
+
+.colorPicker :global(.react-colorful__hue) {
+    order: -1;
+}
+
+.colorPicker :global(.react-colorful__hue),
+.colorPicker :global(.react-colorful__alpha){
+    height: 14px;
+    border-radius: 5px;
+}
+
+.colorPicker :global(.react-colorful__hue-pointer) {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.colorPicker :global(.react-colorful__alpha) {
+    display: none;
+}
+
+.colorPicker :global(.react-colorful__saturation-pointer) {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.resetBtn {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-weight: bold;
+    border: solid 2px var(--color-border);
+    font-size: var(--font-size);
+    width: 20.4rem;
+    height: 3rem;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.resetBtn:hover {
+    border: solid 2px var(--color-accent);
+    outline: solid 2px var(--color-accent-50);
 }

@@ -201,6 +201,8 @@ p.invalid {
 
 @media (prefers-reduced-motion: reduce) {
     input.invalid,
-    p.invalid { animation: none; }
-    border-color: var(--color-danger);
+    p.invalid {
+        animation: none;
+        border-color: var(--color-danger);
+    }
 }
