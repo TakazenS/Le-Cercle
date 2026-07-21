@@ -9,7 +9,7 @@ import { ManageModal } from "./Servers/ManageModal.tsx";
 import { ListModal } from "./Servers/ListModal.tsx";
 import { listServers } from "./Servers/servers.ts";
 import { useServers } from "./Servers/ServersProvider.tsx";
-import {AccentColorModal} from "./Theme/AccentColorModal.tsx";
+import { AccentColorModal } from "./Theme/AccentColorModal.tsx";
 import { ToggleTheme } from "./Theme/ToggleTheme.tsx";
 
 function App() {

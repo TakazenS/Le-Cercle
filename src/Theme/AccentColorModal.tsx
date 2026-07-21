@@ -1,7 +1,7 @@
 import styles from "./AccentColorModal.module.css";
 import { RgbaColorPicker } from "react-colorful";
 import { accentToHex, accentToRgba, useTheme, PRESET_ACCENTS } from "./ThemeProvider.tsx";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 interface Props {
     onClose: () => void;

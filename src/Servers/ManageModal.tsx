@@ -1,6 +1,6 @@
 import styles from "./ManageModal.module.css";
 import { Server } from "../models.ts";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useServers } from "./ServersProvider.tsx";
 
 interface Props {
