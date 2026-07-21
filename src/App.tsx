@@ -15,31 +15,33 @@ import { ToggleTheme } from "./Theme/ToggleTheme.tsx";
 function App() {
     const { isAuthenticated, logout } = useAuth();
     const { currentServer } = useServers();
-    const [showAddServers, setShowAddServers] = useState<boolean>(() => listServers().length === 0);
-    const [showServerSList, setShowServersList] = useState<boolean>(false);
-    const [showAccentColorModal, setShowThemeToggle] = useState<boolean>(false);
+    const [showAddServersModal, setShowAddServersModal] = useState<boolean>(() => listServers().length === 0);
+    const [showServersListModal, setShowServersListModal] = useState<boolean>(false);
+    const [showAccentColorModal, setShowAccentColorModal] = useState<boolean>(false);
+
+    const modalOpen = showAddServersModal || showServersListModal || showAccentColorModal;
 
     if (!isAuthenticated) {
         return (
             <main>
-                {showAddServers && (
-                    <ManageModal onClose={() => setShowAddServers(false)} />
+                {showAddServersModal && (
+                    <ManageModal onClose={() => setShowAddServersModal(false)} />
                 )}
-                {showServerSList && (
-                    <ListModal onClose={() => setShowServersList(false)} />
+                {showServersListModal && (
+                    <ListModal onClose={() => setShowServersListModal(false)} />
                 )}
                 {showAccentColorModal && (
-                    <AccentColorModal onClose={() => setShowThemeToggle(false)}/>
+                    <AccentColorModal onClose={() => setShowAccentColorModal(false)}/>
                 )}
-                <AuthScreen />
-                <div className={styles.toolbar}>
+                <AuthScreen modalOpen={modalOpen} />
+                <div className={styles.toolbar} inert={modalOpen}>
                     <button
                         className={styles.selectServerBtn}
                         onClick={() => {
-                            if (!showServerSList) {
-                                setShowServersList(true)
+                            if (!showServersListModal) {
+                                setShowServersListModal(true)
                             } else {
-                                setShowServersList(false)
+                                setShowServersListModal(false)
                             }
                         }}
                     >
@@ -56,10 +58,10 @@ function App() {
                     <button
                         className={styles.toolBtn}
                         onClick={() => {
-                            if (!showAddServers) {
-                                setShowAddServers(true)
+                            if (!showAddServersModal) {
+                                setShowAddServersModal(true)
                             } else {
-                                setShowAddServers(false)
+                                setShowAddServersModal(false)
                             }
                         }}
                     >
@@ -69,9 +71,9 @@ function App() {
                         className={styles.toolBtn}
                         onClick={() => {
                             if (!showAccentColorModal) {
-                                setShowThemeToggle(true)
+                                setShowAccentColorModal(true)
                             } else {
-                                setShowThemeToggle(false)
+                                setShowAccentColorModal(false)
                             }
                         }}
                     >

@@ -3,7 +3,7 @@ import { Server } from "../models.ts";
 import { FiEdit3 } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useServers } from "./ServersProvider.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ManageModal } from "./ManageModal.tsx";
 import { TrashModal } from "./TrashModal.tsx";
 
@@ -18,6 +18,12 @@ export function ListModal(props: Props) {
     const [server, setServer] = useState<Server>();
     const [isTrash, setIsTrash] = useState<boolean>(false);
 
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [onClose]);
+
     return showEditServer ? (
             <>
                 <ManageModal onClose={() => setShowEditServer(false)} editServer={servers.find(s => s.id === server?.id)} />
@@ -29,6 +35,7 @@ export function ListModal(props: Props) {
                 )}
                 <section
                     className={styles.listSection}
+                    inert={isTrash}
                      onClick={(e) => {
                          if (e.target === e.currentTarget) {
                              e.stopPropagation();

@@ -1,6 +1,7 @@
 import styles from "./AccentColorModal.module.css";
 import { RgbaColorPicker } from "react-colorful";
 import { accentToHex, accentToRgba, useTheme, PRESET_ACCENTS } from "./ThemeProvider.tsx";
+import {useEffect} from "react";
 
 interface Props {
     onClose: () => void;
@@ -9,6 +10,12 @@ interface Props {
 export function AccentColorModal(props: Props) {
     const { onClose } = props;
     const { accent, setAccent, resetAccent } = useTheme();
+
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [onClose]);
 
     return (
         <>

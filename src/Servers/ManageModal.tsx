@@ -1,6 +1,6 @@
 import styles from "./ManageModal.module.css";
 import { Server } from "../models.ts";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useServers } from "./ServersProvider.tsx";
 
 interface Props {
@@ -25,6 +25,12 @@ export function ManageModal(props: Props) {
 
     let serverIpUrl = `${protocol}${serverIp}:${serverPort}`;
     let serverDnsUrl = `${protocol}${serverDns}`;
+
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [onClose]);
 
     const isInvalid = (field: string) => invalid.includes(field);
 
