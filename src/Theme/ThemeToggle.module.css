@@ -1,0 +1,18 @@
+.themeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+    border: solid 2px var(--color-border);
+    border-radius: 12px;
+    padding: 0.7rem 0.7rem;
+    color: var(--secondary-text);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.themeBtn:hover {
+    background-color: var(--color-tenary);
+    outline: 2px solid var(--color-accent-50);
+    border: 2px solid var(--color-accent);
+}
