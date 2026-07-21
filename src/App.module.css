@@ -6,7 +6,7 @@
     --color-tenary: #25262c;
     --color-text: #e9eaed;
     --color-text-white: #e9eaed;
-    --secondary-text: #9fa1a3;
+    --secondary-text: #aeb1b3;
     --color-border: #393e3e;
     --color-danger: #f85149;
     --shadow: rgba(0, 0, 0, 0.5);
@@ -62,19 +62,25 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: var(--font-size);
-    background-color: var(--color-surface);
+    background-color: var(--color-bg);
     backdrop-filter: blur(4px);
-    border: solid 1px var(--color-border);
+    border: solid 2px var(--color-border);
     cursor: pointer;
     padding: 5px 5px 5px 12px;
     gap: 4px;
-    height: 2.8rem;
+    height: 2.9rem;
+}
+
+.selectServerBtn:hover {
+    background-color: var(--color-tenary);
+    outline: 2px solid var(--color-accent-50);
+    border: 2px solid var(--color-accent);
 }
 
 .textNoServer {
-    color: var(--color-text);
+    color: var(--color-danger);
     padding-right: 8px;
 }
 
@@ -90,11 +96,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
-    color: var(--color-accent);
-    background-color: var(--color-surface);
+    border-radius: 12px;
+    color: var(--secondary-text);
+    background-color: var(--color-bg);
     backdrop-filter: blur(4px);
-    border: solid 1px var(--color-border);
+    border: solid 2px var(--color-border);
     cursor: pointer;
-    padding: 7px;
+    padding: 0.6rem;
+}
+
+.toolBtn:hover {
+    background-color: var(--color-tenary);
+    outline: 2px solid var(--color-accent-50);
+    border: 2px solid var(--color-accent);
 }

@@ -1,17 +1,17 @@
-import styles from "./ServersList.module.css";
+import styles from "./ListModal.module.css";
 import { Server } from "../models.ts";
 import { FiEdit3 } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useServers } from "./ServersProvider.tsx";
 import { useState } from "react";
-import { ManageServers } from "./ManageServers.tsx";
+import { ManageModal } from "./ManageModal.tsx";
 import { TrashModal } from "./TrashModal.tsx";
 
 interface Props {
     onClose: () => void;
 }
 
-export function ServersList(props: Props) {
+export function ListModal(props: Props) {
     const { onClose } = props;
     const { servers, selectedId, selectServer } = useServers();
     const [showEditServer, setShowEditServer] = useState<boolean>(false);
@@ -20,7 +20,7 @@ export function ServersList(props: Props) {
 
     return showEditServer ? (
             <>
-                <ManageServers onClose={() => setShowEditServer(false)} editServer={servers.find(s => s.id === server?.id)} />
+                <ManageModal onClose={() => setShowEditServer(false)} editServer={servers.find(s => s.id === server?.id)} />
             </>
         ) : (
             <>

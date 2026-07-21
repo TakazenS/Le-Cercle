@@ -1,4 +1,4 @@
-import styles from "./ManageServers.module.css";
+import styles from "./ManageModal.module.css";
 import { Server } from "../models.ts";
 import { useState } from "react";
 import { useServers } from "./ServersProvider.tsx";
@@ -11,7 +11,7 @@ interface Props {
 const regIp = /^\d{1,3}(\.\d{1,3}){3}$/;
 const regPort = /^\d{1,4}$/
 
-export function ManageServers(props: Props) {
+export function ManageModal(props: Props) {
     const { onClose, editServer } = props;
     const { addServer, updateServer } = useServers();
     const parsed = editServer ? parseUrl(editServer.url) : null;

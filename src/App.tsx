@@ -5,30 +5,31 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { LuPaintbrush } from "react-icons/lu";
 import { useAuth } from "./Auth/AuthProvider.tsx";
 import { AuthScreen } from "./Auth/AuthScreen.tsx";
-import { ManageServers } from "./Servers/ManageServers.tsx";
-import { ServersList } from "./Servers/ServersList.tsx";
+import { ManageModal } from "./Servers/ManageModal.tsx";
+import { ListModal } from "./Servers/ListModal.tsx";
 import { listServers } from "./Servers/servers.ts";
 import { useServers } from "./Servers/ServersProvider.tsx";
-import {ThemeModal} from "./Theme/ThemeModal.tsx";
+import {AccentColorModal} from "./Theme/AccentColorModal.tsx";
+import { ToggleTheme } from "./Theme/ToggleTheme.tsx";
 
 function App() {
     const { isAuthenticated, logout } = useAuth();
     const { currentServer } = useServers();
     const [showAddServers, setShowAddServers] = useState<boolean>(() => listServers().length === 0);
     const [showServerSList, setShowServersList] = useState<boolean>(false);
-    const [showThemeToggle, setShowThemeToggle] = useState<boolean>(false);
+    const [showAccentColorModal, setShowThemeToggle] = useState<boolean>(false);
 
     if (!isAuthenticated) {
         return (
             <main>
                 {showAddServers && (
-                    <ManageServers onClose={() => setShowAddServers(false)} />
+                    <ManageModal onClose={() => setShowAddServers(false)} />
                 )}
                 {showServerSList && (
-                    <ServersList onClose={() => setShowServersList(false)} />
+                    <ListModal onClose={() => setShowServersList(false)} />
                 )}
-                {showThemeToggle && (
-                    <ThemeModal onClose={() => setShowThemeToggle(false)}/>
+                {showAccentColorModal && (
+                    <AccentColorModal onClose={() => setShowThemeToggle(false)}/>
                 )}
                 <AuthScreen />
                 <div className={styles.toolbar}>
@@ -62,20 +63,21 @@ function App() {
                             }
                         }}
                     >
-                        <FiServer size={30}/>
+                        <FiServer size={25}/>
                     </button>
                     <button
                         className={styles.toolBtn}
                         onClick={() => {
-                            if (!showThemeToggle) {
+                            if (!showAccentColorModal) {
                                 setShowThemeToggle(true)
                             } else {
                                 setShowThemeToggle(false)
                             }
                         }}
                     >
-                        <LuPaintbrush size={30}/>
+                        <LuPaintbrush size={25}/>
                     </button>
+                    <ToggleTheme />
                 </div>
             </main>
         )

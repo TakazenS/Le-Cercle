@@ -17,7 +17,7 @@
     border-radius: 12px;
     color: var(--color-text);
     background-color: var(--color-bg);
-    border: solid 1px var(--color-border);
+    border: solid 2px var(--color-border);
     margin-bottom: 1.2rem;
 }
 
@@ -129,7 +129,7 @@
     border-radius: 12px;
     color: var(--color-text);
     background-color: var(--color-bg);
-    border: solid 1px var(--color-border);
+    border: solid 2px var(--color-border);
     margin-bottom: 1.2rem;
 }
 
