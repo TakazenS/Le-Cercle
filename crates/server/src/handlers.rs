@@ -1,9 +1,10 @@
-use axum::{ Json, extract::State, http::StatusCode };
+use axum::{ Json, extract::State, http::StatusCode, routing::get };
 use argon2::{ Argon2, PasswordHash, PasswordVerifier };
 use tracing::{ info, warn, error };
 use uuid::Uuid;
 use crate::auth::{ create_hash, generate_session_token };
-use crate::models::{ RegisterRequest, LoginRequest, AuthResponse };
+use crate::middlewares::AuthUser;
+use crate::models::{RegisterRequest, LoginRequest, AuthResponse, MeResponse };
 use crate::validation::{ PATTERNS, is_strong_password };
 
 /*======= Helpers =======*/
@@ -11,6 +12,8 @@ fn internal_error(e: sqlx::Error) -> (StatusCode, String) {
     error!("Database error : {e}");
     (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error".to_string())
 }
+
+pub async fn handler() -> &'static str { "Le Cercle - Server Online !" }
 
 async fn create_session(pool: &sqlx::PgPool, user_id: Uuid) -> Result<String, (StatusCode, String)> {
     let token = generate_session_token();
@@ -182,4 +185,23 @@ pub async fn login(
     Ok(Json(AuthResponse { token }))
 }
 
-pub async fn handler() -> &'static str { "Le Cercle - Server Online !" }
+pub async fn me(
+    user: AuthUser,
+    State(pool): State<sqlx::PgPool>,
+) -> Result<Json<MeResponse>, (StatusCode, String)> {
+    let row: (String, String, String, String, Option<String>) = sqlx::query_as(
+        "SELECT email, first_name, last_name, nickname, description FROM users WHERE id = $1",
+    )
+    .bind(user.user_id)
+    .fetch_one(&pool)
+    .await
+    .map_err(internal_error)?;
+
+    Ok(Json(MeResponse {
+        email: row.0,
+        first_name: row.1,
+        last_name: row.2,
+        nickname: row.3,
+        description: row.4,
+    }))
+}

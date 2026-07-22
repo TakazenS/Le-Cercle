@@ -20,3 +20,12 @@ pub struct LoginRequest {
 pub struct AuthResponse {
     pub token: String,
 }
+
+#[derive(serde::Serialize)]
+pub struct MeResponse {
+    pub email: String,
+    pub first_name: String,
+    pub last_name: String,
+    pub nickname: String,
+    pub description: Option<String>,
+}

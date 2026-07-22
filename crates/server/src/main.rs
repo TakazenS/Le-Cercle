@@ -3,18 +3,25 @@ mod auth;
 mod handlers;
 mod bootstrap;
 mod validation;
-
-use handlers::{ handler, register, login };
-use bootstrap::lead_in;
+mod middlewares;
 use sqlx::postgres::PgPoolOptions;
 use tower_http::cors::CorsLayer;
 use tracing::info;
-use shared::{ get_ip, get_port, get_url };
 use tracing_subscriber::{ fmt, EnvFilter };
-use axum::{
-    routing::{ get, post },
-    Router,
+use axum::{ routing::{ get, post }, Router, };
+use bootstrap::lead_in;
+use shared::{
+    get_ip,
+    get_port,
+    get_url
 };
+use handlers::{
+    handler,
+    register,
+    login,
+    me
+};
+
 /*======= Main =======*/
 #[tokio::main]
 async fn main() {
@@ -55,6 +62,7 @@ async fn main() {
         .route("/", get(handler))
         .route("/register", post(register))
         .route("/login", post(login))
+        .route("/me", get(me))
         .layer(CorsLayer::permissive())
         .with_state(pool.clone());
 
