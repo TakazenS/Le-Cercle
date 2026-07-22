@@ -103,12 +103,15 @@ sqlx migrate run
 
 ## Roadmap
 
-> **Current focus:** the accounts system (sign-up with access code, login, password hashing with Argon2).
+> **Current focus:** session middleware (authenticated routes) and the main chat layout.
 
 - [x] Foundation: Tauri app + Rust server + PostgreSQL connection
 - [x] Server bootstrap (auto-generated access code + default roles) & structured logging (`tracing`)
-- [ ] Accounts (sign-up with access code, login, password hashing)
-- [ ] Profiles (nickname, avatar, description)
+- [x] Accounts: sign-up with access code, login, password hashing (Argon2), sessions
+- [x] Auth UI: login / register screens, client- and server-side validation, light/dark theme, custom accent color
+- [x] Multi-server client: add / edit / remove servers, select the active server
+- [ ] Session middleware + authenticated routes (`/me`)
+- [ ] Main chat layout (channels sidebar, members panel, message area)
 - [ ] Text channels (create / delete)
 - [ ] Real-time messages (WebSocket) + persistent history
 - [ ] Online / offline presence
