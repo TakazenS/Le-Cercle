@@ -17,6 +17,15 @@ export interface AuthResponse {
     token: string;
 }
 
+export interface MeResponse {
+    email: string;
+    firstName: string;
+    lastName: string;
+    nickname: string;
+    pseudo: string;
+    description?: string | null;
+}
+
 export interface Server {
     id: string;
     name: string;

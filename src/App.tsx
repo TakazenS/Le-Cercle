@@ -13,13 +13,19 @@ import { AccentColorModal } from "./Theme/AccentColorModal.tsx";
 import { ToggleTheme } from "./Theme/ToggleTheme.tsx";
 
 function App() {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, isLoading, logout } = useAuth();
     const { currentServer } = useServers();
     const [showAddServersModal, setShowAddServersModal] = useState<boolean>(() => listServers().length === 0);
     const [showServersListModal, setShowServersListModal] = useState<boolean>(false);
     const [showAccentColorModal, setShowAccentColorModal] = useState<boolean>(false);
 
     const modalOpen = showAddServersModal || showServersListModal || showAccentColorModal;
+
+    if (isLoading) return (
+        <div className="boot">
+            <div className="boot-spinner"></div>
+        </div>
+    )
 
     if (!isAuthenticated) {
         return (
