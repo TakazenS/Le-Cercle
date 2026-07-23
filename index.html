@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en-EN">
+<html lang=%VITE_APP_LANG_FULL%>
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Le Cercle</title>
+    <title>%VITE_APP_TITLE%</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,12 +75,11 @@
       }
     </style>
   </head>
-
   <body>
     <div id="root">
       <div class="boot">
         <div class="boot-spinner"></div>
-        <p>Loading...</p>
+        <p>Loading app : %VITE_APP_NAME%...</p>
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>

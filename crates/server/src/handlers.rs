@@ -1,4 +1,4 @@
-use axum::{ Json, extract::State, http::StatusCode, routing::get };
+use axum::{ Json, extract::State, http::StatusCode };
 use argon2::{ Argon2, PasswordHash, PasswordVerifier };
 use tracing::{ info, warn, error };
 use uuid::Uuid;

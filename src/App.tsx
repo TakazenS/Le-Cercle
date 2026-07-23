@@ -24,6 +24,7 @@ function App() {
     if (isLoading) return (
         <div className="boot">
             <div className="boot-spinner"></div>
+            <p>Loading your session...</p>
         </div>
     )
 

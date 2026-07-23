@@ -26,6 +26,6 @@ dist-ssr
 # Rust / Cargo (sortie de compilation)
 target/
 
-# Secrets / variables d'environnement — NE JAMAIS committer
+# Secrets / Environnement variables — NEVER commit
 .env
-# (on garde .env.example comme modèle public)
+# (we keep .env.example as public model)
