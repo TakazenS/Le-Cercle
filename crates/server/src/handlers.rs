@@ -192,8 +192,8 @@ pub async fn me(
     user: AuthUser,
     State(pool): State<sqlx::PgPool>,
 ) -> Result<Json<MeResponse>, (StatusCode, String)> {
-    let row: (String, String, String, String, Option<String>) = sqlx::query_as(
-        "SELECT email, first_name, last_name, nickname, description FROM users WHERE id = $1",
+    let row: (String, String, String, String, String, Option<String>) = sqlx::query_as(
+        "SELECT email, first_name, last_name, nickname, pseudo, description FROM users WHERE id = $1",
     )
     .bind(user.user_id)
     .fetch_one(&pool)
@@ -205,6 +205,7 @@ pub async fn me(
         first_name: row.1,
         last_name: row.2,
         nickname: row.3,
-        description: row.4,
+        pseudo: row.4,
+        description: row.5,
     }))
 }
