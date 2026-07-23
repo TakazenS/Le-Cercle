@@ -10,17 +10,8 @@ use tracing::info;
 use tracing_subscriber::{ fmt, EnvFilter };
 use axum::{ routing::{ get, post }, Router, };
 use bootstrap::lead_in;
-use shared::{
-    get_ip,
-    get_port,
-    get_url
-};
-use handlers::{
-    handler,
-    register,
-    login,
-    me
-};
+use shared::{ get_localhost_url, get_lan_url };
+use handlers::{ handler, register, login, me };
 
 /*======= Main =======*/
 #[tokio::main]
@@ -33,10 +24,6 @@ async fn main() {
         .init();
 
     info!("Starting server...");
-
-    let port = get_port();
-    let ip = get_ip();
-    let url = get_url();
 
     let db_url = std::env::var("DATABASE_URL")
         .expect("DATABASE_URL must be set in .env");
@@ -66,9 +53,11 @@ async fn main() {
         .layer(CorsLayer::permissive())
         .with_state(pool.clone());
 
-    let listener = tokio::net::TcpListener::bind(format!("{ip}:{port}"))
+    let bind = std::env::var("SERVER_BIND").unwrap_or_else(|_| get_localhost_url());
+    let listener = tokio::net::TcpListener::bind(&bind)
         .await
         .unwrap();
-    info!("Server started on {url}");
+    let shown_url = get_lan_url();
+    info!("Server started on {shown_url}");
     axum::serve(listener, app).await.unwrap();
 }
