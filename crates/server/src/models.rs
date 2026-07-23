@@ -27,5 +27,6 @@ pub struct MeResponse {
     pub first_name: String,
     pub last_name: String,
     pub nickname: String,
+    pub pseudo: String,
     pub description: Option<String>,
 }
