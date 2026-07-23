@@ -39,27 +39,23 @@ export function RegisterForm(props: Props) {
         e.preventDefault();
         const missing: string[] = [];
 
-        if (!firstName.trim() || firstName.length < 2 || firstName.length > 64 || reg.name.test(firstName)) {
+        if (!firstName.trim() || firstName.length < 2 || firstName.length > 64) {
             missing.push("firstName");
         }
-        if (!lastName.trim() || lastName.length < 2 || lastName.length > 64 || reg.name.test(lastName)) {
+        if (!lastName.trim() || lastName.length < 2 || lastName.length > 64) {
             missing.push("lastName");
         }
         if (!email.trim() || email.length < 6 || email.length > 128 || !reg.emailFormat.test(email)) {
             missing.push("email");
         }
-        if (!nickname.trim() || nickname.length < 2 || nickname.length > 32 || reg.nickname.test(nickname)) {
+        if (!nickname.trim() || nickname.length < 2 || nickname.length > 32) {
             missing.push("nickname");
         }
         if (!password.trim() || confirmPassword !== password|| !reg.password.test(password)) {
             missing.push("password");
             missing.push("confirmPassword");
         }
-        if (!confirmPassword.trim() || password !== confirmPassword) {
-            missing.push("password");
-            missing.push("confirmPassword");
-        }
-        if (!accessCode.trim() || accessCode.length != 8 || reg.accessCode.test(accessCode)) {
+        if (!accessCode.trim() || accessCode.length != 8) {
             missing.push("accessCode");
         }
 
