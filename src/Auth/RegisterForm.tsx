@@ -45,7 +45,7 @@ export function RegisterForm(props: Props) {
         if (!lastName.trim() || lastName.length < 2 || lastName.length > 64 || reg.name.test(lastName)) {
             missing.push("lastName");
         }
-        if (!email.trim() || email.length < 5 || email.length > 128 || !reg.emailFormat.test(email)) {
+        if (!email.trim() || email.length < 6 || email.length > 128 || !reg.emailFormat.test(email)) {
             missing.push("email");
         }
         if (!nickname.trim() || nickname.length < 2 || nickname.length > 32 || reg.nickname.test(nickname)) {

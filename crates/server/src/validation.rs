@@ -10,7 +10,7 @@ pub struct Patterns {
 
 pub static PATTERNS: LazyLock<Patterns> = LazyLock::new(|| Patterns {
     name: Regex::new(r"^[\p{L}\p{M}' -]{2,64}$").unwrap(),
-    email: Regex::new(r"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{6,}$").unwrap(),
+    email: Regex::new(r"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$").unwrap(),
     pseuname: Regex::new(r"^[\p{L}\p{M}\p{N}]{2,32}$").unwrap(),
     access_code: Regex::new(r"^[A-Z0-9]{8}$").unwrap(),
 });

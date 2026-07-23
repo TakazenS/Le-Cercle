@@ -32,7 +32,7 @@ pub async fn register(
     State(pool): State<sqlx::PgPool>,
     Json(payload): Json<RegisterRequest>,
 ) -> Result<Json<AuthResponse>, (StatusCode, String)> {
-    info!("Registration request for : {}", payload.email);
+    info!("Registration request for : {}", payload.email.trim().to_lowercase());
 
     let first_name = payload.first_name.trim();
     let last_name = payload.last_name.trim();
@@ -156,16 +156,19 @@ pub async fn login(
     State(pool): State<sqlx::PgPool>,
     Json(payload): Json<LoginRequest>,
 ) -> Result<Json<AuthResponse>, (StatusCode, String)> {
-    info!("Login request for : {}", payload.email);
+    info!("Login request for : {}", payload.email.trim().to_lowercase());
+
+    let email = payload.email.trim().to_lowercase();
+    let password = payload.password;
 
     let user: Option<(Uuid, String)> = sqlx::query_as("SELECT id, password_hash FROM users WHERE email = $1")
-        .bind(&payload.email)
+        .bind(&email)
         .fetch_optional(&pool).await.map_err(internal_error)?;
 
     let (user_id, password_hash) = match user {
         Some(u) => u,
         None => {
-            warn!("Login failed : unknown email {}", payload.email);
+            warn!("Login failed : unknown email {}", email);
             return Err((StatusCode::UNAUTHORIZED, "Invalid credentials !".to_string()));
         }
     };
@@ -173,15 +176,15 @@ pub async fn login(
     let parsed = PasswordHash::new(&password_hash)
         .map_err(|_| (StatusCode::INTERNAL_SERVER_ERROR, "Invalid stored hash".to_string()))?;
     if Argon2::default()
-        .verify_password(payload.password.as_bytes(), &parsed)
+        .verify_password(password.as_bytes(), &parsed)
         .is_err()
     {
-        warn!("Login failed : wrong password for {}", payload.email);
+        warn!("Login failed : wrong password for {}", email);
         return Err((StatusCode::UNAUTHORIZED, "Invalid credentials !".to_string()));
     }
 
     let token = create_session(&pool, user_id).await?;
-    info!("Login success for {}", payload.email);
+    info!("Login success for {}", email);
     Ok(Json(AuthResponse { token }))
 }
 
