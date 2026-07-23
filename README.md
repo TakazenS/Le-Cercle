@@ -60,6 +60,7 @@ le-cercle/
    cp crates/server/.env.example crates/server/.env
    # then edit crates/server/.env and set your DATABASE_URL
    ```
+   The template also sets `SERVER_BIND=0.0.0.0:8080`, which makes the server reachable from other machines on your network. Change it to `127.0.0.1:8080` if you want local-only access.
 
 4. **Run the database migrations** — this creates the tables in your database:
    ```bash
@@ -71,7 +72,7 @@ le-cercle/
    ```bash
    cargo run
    ```
-   You should see "Connected to Postgres…" then "Server started on http://127.0.0.1:8080".
+   You should see "Connected to Postgres…" then "Server started on <your-machine-IP>:8080" — that detected address (not `127.0.0.1`) is what other machines on your network use to reach the server.
    On the **very first launch**, the server also generates a random 8-character **access code** and prints it in the console — note it down, it is what new members will need to sign up.
 
 6. **Start the application** (in a second terminal, from the project root):
@@ -103,14 +104,14 @@ sqlx migrate run
 
 ## Roadmap
 
-> **Current focus:** session middleware (authenticated routes) and the main chat layout.
+> **Current focus:** the main chat layout (channels sidebar, members panel, message area).
 
 - [x] Foundation: Tauri app + Rust server + PostgreSQL connection
 - [x] Server bootstrap (auto-generated access code + default roles) & structured logging (`tracing`)
 - [x] Accounts: sign-up with access code, login, password hashing (Argon2), sessions
 - [x] Auth UI: login / register screens, client- and server-side validation, light/dark theme, custom accent color
 - [x] Multi-server client: add / edit / remove servers, select the active server
-- [ ] Session middleware + authenticated routes (`/me`)
+- [x] Session middleware + authenticated routes (`/me`)
 - [ ] Main chat layout (channels sidebar, members panel, message area)
 - [ ] Text channels (create / delete)
 - [ ] Real-time messages (WebSocket) + persistent history
